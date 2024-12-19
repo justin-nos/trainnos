@@ -1,12 +1,13 @@
-import './globals.css';
-import {Inter} from 'next/font/google';
-import Navbar from '../components/client/navbar';
-import Footer from '../components/server/footer';
-const inter = Inter({subsets: ['latin']});
+import "./globals.css";
+import {Inter} from "next/font/google";
+import Navbar from "../components/client/navbar";
+import Footer from "../components/server/footer";
+import {SpeedInsights} from "@vercel/speed-insights/next";
+const inter = Inter({subsets: ["latin"]});
 
 export const metadata = {
-  title: 'No Off Season',
-  description: 'Property of No Off Season LLC',
+  title: "No Off Season",
+  description: "Property of No Off Season LLC",
 };
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
@@ -15,6 +16,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
       <body className={inter.className}>
         <Navbar />
         {children}
+        <SpeedInsights />
         <Footer />
       </body>
     </html>
