@@ -13,6 +13,7 @@ export const metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
+      <head>No Off Season</head>
       <body className={inter.className}>
         <Navbar />
         {children}
