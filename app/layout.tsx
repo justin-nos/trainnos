@@ -19,6 +19,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         <Navbar />
         {children}
         <SpeedInsights />
+        <Analytics />
         <Footer />
       </body>
     </html>
