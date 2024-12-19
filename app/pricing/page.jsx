@@ -1,4 +1,3 @@
-"use client";
 import Image from "next/image";
 import pricingimage from "../../public/nos-pricing.JPEG";
 

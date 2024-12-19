@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 import robertPic from "../public/Robert.png";
 import MonicaPic from "../public/Monica.png";
