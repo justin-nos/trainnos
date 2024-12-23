@@ -8,7 +8,7 @@ import {TiContacts} from "react-icons/ti";
 import Mailto from "../../components/server/emailAssets";
 
 const gavinContact =
-  "data:text/vcard;charset=utf-8,%20BEGIN:VCARD%0D%0AVERSION:3.0%0D%0APRODID:-//Apple Inc.//macOS 15.2//EN%0D%0AN:Willisson;Gavin;;;%0D%0AFN:Gavin Willisson%0D%0AEMAIL;type=INTERNET;type=WORK;type=pref:gavin@trainnos.com%0D%0ATEL;type=pref:+12516566025%0D%0AEND:VCARD";
+  "data:text/vcard;charset=utf-8,%20BEGIN:VCARD%0D%0AVERSION:3.0%0D%0APRODID:-//Apple Inc.//macOS 15.2//EN%0D%0AN:Willisson;Gavin;;;%0D%0AFN:Gavin Willisson%0D%0AORG:NOS;%0D%0AEMAIL;type=INTERNET;type=WORK;type=pref:gavin@trainnos.com%0D%0ATEL;type=pref:+12516566025%0D%0AEND:VCARD";
 const brannonContact =
   "data:text/vcard;charset=utf-8,%20BEGIN:VCARD%0D%0AVERSION:3.0%0D%0APRODID:-//Apple Inc.//macOS 15.2//EN%0D%0AN:Willisson;Brannon;;;%0D%0AFN:Brannon Willisson%0D%0AORG:NOS;%0D%0AEMAIL;type=INTERNET;type=WORK;type=pref:brannon@trainnos.com%0D%0ATEL;type=pref:+12518954302%0D%0AEND:VCARD";
 
@@ -19,7 +19,7 @@ const people = [
     imageUrl: GavinSrc,
     bio: "We have seen God do great things in this gym to allow it to happen. From being funded by a guy we had only known for a few months to the step by step oddities that have led to what we are today, The Lord has allowed us to do what we enjoy doing: train all ages for great things in life and pour into their lives even outside of the gym.",
     emailUrl: "gavin@trainnos.com",
-    phoneUrl: "tel:+1234567890",
+    phoneUrl: "tel:+12516566025",
     contactUrl: gavinContact,
   },
   {
@@ -28,7 +28,7 @@ const people = [
     imageUrl: BrannonSrc,
     bio: "When Gavin and I were growing up we always had a dream of opening a gym and calling it No Off Season. We wanted to have a place where kids in the community could come and get better at their sports but also grow in a relationship with Christ. I wanted to invest in the kids and local community the way a mentor of mine did for me.",
     emailUrl: "brannon@trainnos.com",
-    phoneUrl: "#",
+    phoneUrl: "tel:+12518954302",
     contactUrl: brannonContact,
   },
 ];
