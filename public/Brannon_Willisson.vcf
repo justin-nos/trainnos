@@ -1,0 +1,9 @@
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//macOS 15.2//EN
+N:Willisson;Brannon;;;
+FN:Brannon Willisson
+ORG:NOS;
+EMAIL;type=INTERNET;type=WORK;type=pref:brannon@trainnos.com
+TEL;type=pref:+12518954302
+END:VCARD

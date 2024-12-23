@@ -1,0 +1,8 @@
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//macOS 15.2//EN
+N:Willisson;Gavin;;;
+FN:Gavin Willisson
+EMAIL;type=INTERNET;type=WORK;type=pref:gavin@trainnos.com
+TEL;type=pref:+12516566025
+END:VCARD

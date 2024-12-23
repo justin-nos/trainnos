@@ -1,26 +1,56 @@
-'use client';
-import Image from 'next/image';
-import logoPNG from '../../public/NOSWHITE_1.png';
-import Link from 'next/link';
-import {useState} from 'react';
-import {Dialog, DialogPanel} from '@headlessui/react';
-import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline';
+"use client";
+import Image from "next/image";
+import logoPNG from "../../public/NOSWHITE_1.png";
+import logoPNGBlack from "../../public/NOSLogo.png";
+import Link from "next/link";
+import {useState, useEffect} from "react";
+import {Dialog, DialogPanel} from "@headlessui/react";
+import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline";
+import {usePathname} from "next/navigation";
 
 const navigation = [
-  {name: 'Meet Us', href: '/meet'},
-  {name: 'Pricing', href: '/pricing'},
+  {
+    name: "Meet Us",
+    href: {
+      pathname: "/meet",
+    },
+  },
+  {
+    name: "Pricing",
+    href: {
+      pathname: "/pricing",
+    },
+  },
 ];
 
 export default function Navbar({}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const [needBlackText, setNeedBlackText] = useState(false);
+  const pathName = usePathname();
+  useEffect(() => {
+    console.log(pathName);
+    if (pathName == "/meet" || pathName == "/pricing") {
+      setNeedBlackText(true);
+    } else {
+      setNeedBlackText(false);
+    }
+  }, [pathName]);
   return (
     <header className="absolute inset-x-0 top-0 z-50">
-      <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+      <nav
+        className={`flex items-center justify-between p-6 lg:px-8 ${
+          needBlackText ? "text-black" : "text-white"
+        }`}
+        aria-label="Global"
+      >
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">NOS</span>
-            <Image className="h-8 w-auto" src={logoPNG} alt="" />
+            <Image
+              className="h-8 w-auto "
+              src={needBlackText ? logoPNGBlack : logoPNG}
+              alt=""
+            />
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -35,26 +65,47 @@ export default function Navbar({}) {
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
           {navigation.map(item => (
-            <Link key={item.name} href={item.href} className="text-sm font-semibold leading-6 text-white">
+            <Link
+              key={item.name}
+              href={item.href}
+              className={`text-sm font-semibold leading-6 ${
+                needBlackText ? "text-black" : "text-white"
+              }`}
+            >
               {item.name}
             </Link>
           ))}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link href="https://trainnos.pushpress.com/landing/plans" className="text-sm font-semibold leading-6 text-white">
+          <Link
+            href="https://trainnos.pushpress.com/landing/plans"
+            className="text-sm font-semibold leading-6 "
+          >
             Get Started <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
       </nav>
-      <Dialog className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
-        <div className="fixed inset-0 z-50" />
+      <Dialog
+        className="lg:hidden"
+        open={mobileMenuOpen}
+        onClose={setMobileMenuOpen}
+      >
+        <div className="fixed inset-0 z-50 " />
         <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
           <div className="flex items-center justify-between">
-            <Link href="/" className="-m-1.5 p-1.5" onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              href="/"
+              className="-m-1.5 p-1.5"
+              onClick={() => setMobileMenuOpen(false)}
+            >
               <span className="sr-only">NOS</span>
               <Image className="h-8 w-auto" src={logoPNG} alt="" />
             </Link>
-            <button type="button" className="-m-2.5 rounded-md p-2.5 text-gray-400" onClick={() => setMobileMenuOpen(false)}>
+            <button
+              type="button"
+              className="-m-2.5 rounded-md p-2.5 text-gray-400"
+              onClick={() => setMobileMenuOpen(false)}
+            >
               <span className="sr-only">Close menu</span>
               <XMarkIcon className="h-6 w-6" aria-hidden="true" />
             </button>
@@ -66,8 +117,8 @@ export default function Navbar({}) {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800"
-                    onclick={() => setMobileMenuOpen(false)}
+                    className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800`}
+                    onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.name}
                   </Link>
