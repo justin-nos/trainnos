@@ -5,7 +5,7 @@ const nextConfig = {
     return [
       {
         source: "/amplify/:path*",
-        destination: "https://app.posthog.com/:path*",
+        destination: "https://us.i.posthog.com/:path*",
       },
     ];
   },
