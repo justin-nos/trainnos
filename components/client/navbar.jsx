@@ -81,7 +81,7 @@ export default function Navbar({}) {
             href="https://trainnos.pushpress.com/landing/plans"
             className="text-sm font-semibold leading-6 "
           >
-            Get Started <span aria-hidden="true">&rarr;</span>
+            View Plans <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
       </nav>
@@ -129,7 +129,7 @@ export default function Navbar({}) {
                   href="https://trainnos.pushpress.com/landing/plans"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800"
                 >
-                  Get Started
+                  View Plans
                 </Link>
               </div>
             </div>
