@@ -4,7 +4,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/amplify/:path*",
+        source: "/ingest/:path*",
         destination: "https://us.i.posthog.com/:path*",
       },
     ];
