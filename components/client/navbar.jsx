@@ -23,23 +23,36 @@ const navigation = [
   },
 ];
 
+const whiteBGPaths = ["/meet", "/pricing", "/admins/login"];
+const dontDisplayNavPaths = ["/admins"];
+
 export default function Navbar({}) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [needBlackText, setNeedBlackText] = useState(false);
   const pathName = usePathname();
+  const [needBlackText, setNeedBlackText] = useState(false);
   useEffect(() => {
     console.log(pathName);
-    if (pathName == "/meet" || pathName == "/pricing") {
+    if (whiteBGPaths.includes(pathName)) {
+      console.log("Nav needs Black text!!");
       setNeedBlackText(true);
     } else {
+      console.log("Nav needs White Text!!");
       setNeedBlackText(false);
     }
   }, [pathName]);
+  return dontDisplayNavPaths.includes(pathName) ? (
+    <></>
+  ) : (
+    <DefaultHeader needBlackTextPass={needBlackText} />
+  );
+}
+
+function DefaultHeader({needBlackTextPass}) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <header className="absolute inset-x-0 top-0 z-50">
       <nav
         className={`flex items-center justify-between p-6 lg:px-8 ${
-          needBlackText ? "text-black" : "text-white"
+          needBlackTextPass ? "text-black" : "text-white"
         }`}
         aria-label="Global"
       >
@@ -48,7 +61,7 @@ export default function Navbar({}) {
             <span className="sr-only">NOS</span>
             <Image
               className="h-8 w-auto "
-              src={needBlackText ? logoPNGBlack : logoPNG}
+              src={needBlackTextPass ? logoPNGBlack : logoPNG}
               alt=""
             />
           </Link>
@@ -69,7 +82,7 @@ export default function Navbar({}) {
               key={item.name}
               href={item.href}
               className={`text-sm font-semibold leading-6 ${
-                needBlackText ? "text-black" : "text-white"
+                needBlackTextPass ? "text-black" : "text-white"
               }`}
             >
               {item.name}
