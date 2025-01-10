@@ -3,20 +3,12 @@ import {useContext} from "react";
 import AdminNavbar from "../../components/client/AdminNavbar";
 import {AdminContext} from "../../lib/context";
 import {useAdminReroute} from "../../lib/hooks";
+import TestimonialLinkCreation from "../admins/makeTestimonialLink/page";
 
 export default function Dashboard() {
   const {admin} = useContext(AdminContext);
-  const checkSource = useAdminReroute();
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
       <div className="min-h-full">
         <AdminNavbar />
 
@@ -30,7 +22,7 @@ export default function Dashboard() {
           </header>
           <main>
             <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-              {/* Your content */}
+              <TestimonialLinkCreation />
             </div>
           </main>
         </div>

@@ -21,9 +21,15 @@ const navigation = [
       pathname: "/pricing",
     },
   },
+  {
+    name: "Testimonials",
+    href: {
+      pathname: "/testimonials",
+    },
+  },
 ];
 
-const whiteBGPaths = ["/meet", "/pricing", "/admins/login"];
+const whiteBGPaths = ["/meet", "/pricing", "/admins/login", "/testimonials"];
 const dontDisplayNavPaths = ["/admins"];
 
 export default function Navbar({}) {

@@ -1,10 +1,9 @@
 import {usePathValidation} from "../../../../lib/hooks";
 import {doc, getDoc} from "firebase/firestore";
 import {firestoreDB} from "../../../../lib/firebase";
-
-interface DBFetchError extends Error {
-  code: number;
-}
+import {redirect} from "next/navigation";
+import TestimonialForm from "../../../../components/client/TestimonialForm";
+import FunctionAfterForm from "../../../../components/server/FormFunction";
 
 export default async function Page({
   params,
@@ -18,7 +17,6 @@ export default async function Page({
     if (!validationSlug) {
       throw new Error("No slug provided");
     }
-
     // Use the slug to fetch data
     const docRef = doc(firestoreDB, "adminkeys", validationSlug);
     const docSnapshot = await getDoc(docRef);
@@ -37,9 +35,10 @@ export default async function Page({
     );
   }
 
-  return validAuth ? (
-    <h1 className="h-screen place-content-center justify-items-center px-12">{`Blog Post ${validationSlug}`}</h1>
-  ) : (
-    <h1>You can't view this</h1>
-  );
+  if (validAuth) {
+    return <TestimonialForm validSlug={validationSlug} />;
+  } else {
+    console.log("Redirecting...");
+    redirect("/");
+  }
 }

@@ -45,10 +45,33 @@ export default function Home({}) {
           </div>
         </div>
       </div>
-      <section className="isolate overflow-hidden bg-white px-6 lg:px-8">
-        <div className="relative mx-auto max-w-2xl py-24 sm:py-32 lg:max-w-4xl">
-          <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] -translate-x-1/2 bg-[radial-gradient(50%_100%_at_top,theme(colors.indigo.100),white)] opacity-20 lg:left-36" />
-          <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
+      <section className="relative overflow-hidden px-6 lg:px-8">
+        <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] bg-[radial-gradient(50%_100%_at_top,theme(colors.red.200),white)] opacity-20 lg:left-36" />
+        <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-right skew-x-[45deg] bg-white shadow-xl shadow-red-400/10 ring-1 ring-red-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
+        <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] bg-[radial-gradient(50%_100%_at_top,theme(colors.red.200),white)] opacity-20 lg:left-36" />
+        <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-red-400/10 ring-1 ring-red-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
+        <h1 className="font-sans text-5xl md:text-7xl font-thin mt-6 md:mt-12">
+          What to Expect
+        </h1>
+        <video
+          width="1920"
+          height="1080"
+          src={"/whattoexpect.mp4"}
+          autoPlay={true}
+          playsInline
+          muted
+          loop
+          controls
+          className="aspect-video w-screen md:w-4/5 mr-0 ml-auto mt-6 md:mt-12 rounded-2xl"
+        ></video>
+      </section>
+      <section className="relative isolate overflow-hidden px-6 lg:px-8">
+        <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] -translate-x-1/2 bg-[radial-gradient(50%_100%_at_top,theme(colors.indigo.100),white)] opacity-20 lg:left-36" />
+        <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
+        <div className="relative mx-auto max-w-2xl py-12 md:py-24 sm:py-32 lg:max-w-4xl">
+          <h1 className="font-sans text-5xl md:text-7xl font-thin mt-6 md:mt-12 mb-12 md:-ml-8">
+            Testimonials
+          </h1>
           <figure className="grid grid-cols-1 items-center gap-x-6 gap-y-8 lg:gap-x-10">
             <div className="relative col-span-2 lg:col-start-1 lg:row-start-2">
               <svg
@@ -78,7 +101,7 @@ export default function Home({}) {
               <Image
                 className="rounded-xl lg:rounded-3xl"
                 src={robertPic}
-                alt=""
+                alt="Robert's Picture"
               />
             </div>
             <figcaption className="text-base lg:col-start-1 lg:row-start-3">
@@ -87,8 +110,6 @@ export default function Home({}) {
           </figure>
         </div>
         <div className="relative mx-auto max-w-2xl py-24 sm:py-32 lg:max-w-4xl">
-          <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] -translate-x-1/2 bg-[radial-gradient(50%_100%_at_top,theme(colors.indigo.100),white)] opacity-20 lg:left-36" />
-          <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
           <figure className="grid grid-cols-1 items-center gap-x-6 gap-y-8 lg:gap-x-10">
             <div className="relative col-span-2 lg:col-start-1 lg:row-start-2">
               <svg
@@ -119,7 +140,7 @@ export default function Home({}) {
               <Image
                 className="rounded-xl lg:rounded-3xl"
                 src={MaggiePic}
-                alt=""
+                alt="Maggie's Picture"
               />
             </div>
             <figcaption className="text-base lg:col-start-1 lg:row-start-3">
@@ -128,8 +149,6 @@ export default function Home({}) {
           </figure>
         </div>
         <div className="relative mx-auto max-w-2xl py-24 sm:py-32 lg:max-w-4xl">
-          <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] -translate-x-1/2 bg-[radial-gradient(50%_100%_at_top,theme(colors.indigo.100),white)] opacity-20 lg:left-36" />
-          <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
           <figure className="grid grid-cols-1 items-center gap-x-6 gap-y-8 lg:gap-x-10">
             <div className="relative col-span-2 lg:col-start-1 lg:row-start-2">
               <svg
@@ -158,7 +177,7 @@ export default function Home({}) {
               <Image
                 className="rounded-xl lg:rounded-3xl"
                 src={HillaryPic}
-                alt=""
+                alt="Hillary's Picture"
               />
             </div>
             <figcaption className="text-base lg:col-start-1 lg:row-start-3">
@@ -167,8 +186,6 @@ export default function Home({}) {
           </figure>
         </div>
         <div className="relative mx-auto max-w-2xl py-24 sm:py-32 lg:max-w-4xl">
-          <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] -translate-x-1/2 bg-[radial-gradient(50%_100%_at_top,theme(colors.indigo.100),white)] opacity-20 lg:left-36" />
-          <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
           <figure className="grid grid-cols-1 items-center gap-x-6 gap-y-8 lg:gap-x-10">
             <div className="relative col-span-2 lg:col-start-1 lg:row-start-2">
               <svg
@@ -200,7 +217,7 @@ export default function Home({}) {
               <Image
                 className="rounded-xl lg:rounded-3xl fill"
                 src={MonicaPic}
-                alt=""
+                alt="Monica's Picture"
               />
             </div>
             <figcaption className="text-base lg:col-start-1 lg:row-start-3">

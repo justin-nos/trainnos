@@ -1,6 +1,7 @@
 import Image from "next/image";
 import pricingimage from "../../public/nos-pricing.JPEG";
 import {CheckCircleIcon} from "@heroicons/react/20/solid";
+import ExpectButton from "../../components/client/ExpectButton";
 
 const tiers = [
   {
@@ -55,8 +56,12 @@ export default function Pricing() {
           </p>
         </div>
         <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg font-medium text-gray-600 sm:text-center sm:text-xl/8">
-          Choose an affordable plan that fits your needs.
+          Choose a plan that fits your needs.
         </p>
+        <div className="mx-auto mt-3 text-center">
+          also see
+          <ExpectButton></ExpectButton>
+        </div>
         <div className="mt-20 flow-root">
           <div className="isolate -mt-16 grid max-w-sm grid-cols-1 gap-y-16 divide-y divide-gray-100 sm:mx-auto lg:-mx-8 lg:mt-0 lg:max-w-none lg:grid-cols-3 lg:divide-x lg:divide-y-0 xl:-mx-4">
             {tiers.map(tier => (

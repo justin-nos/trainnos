@@ -8,8 +8,8 @@ const navigation = {
     {name: "Diet (Coming Soon)", href: "/diet"},
   ],
   company: [
-    {name: "Meet", href: "#"},
-    {name: "Testimonials", href: "#"},
+    {name: "Meet", href: "/meet"},
+    {name: "Testimonials", href: "/testimonials"},
     {name: "Blog (Coming Soon)", href: "#"},
   ],
   social: [
@@ -68,7 +68,7 @@ const navigation = {
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-700">
+    <footer className="bg-slate-800">
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-8 sm:pt-12 lg:px-8 lg:pt-16">
         <div className="xl:grid xl:grid-cols-3 xl:gap-4">
           <Image
@@ -89,7 +89,7 @@ export default function Footer() {
                     <li key={item.name}>
                       <Link
                         href={item.href}
-                        className="text-sm/6 text-gray-400 hover:text-white"
+                        className="text-sm/6 text-gray-200 hover:text-white"
                       >
                         {item.name}
                       </Link>
@@ -106,7 +106,7 @@ export default function Footer() {
                     <li key={item.name}>
                       <Link
                         href={item.href}
-                        className="text-sm/6 text-gray-400 hover:text-white"
+                        className="text-sm/6 text-gray-200 hover:text-white"
                       >
                         {item.name}
                       </Link>

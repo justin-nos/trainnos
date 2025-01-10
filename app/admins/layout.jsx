@@ -1,14 +1,12 @@
 "use client";
-import {AdminContext} from "../../lib/context";
-import {useAdminData} from "../../lib/hooks";
-
+import AuthProvider from "../../components/client/AdminAuthProvider";
+import AuthCheck from "../../components/client/CheckForAuth";
 export default function AdminLayout({children}) {
-  const AdminContextDefault = useAdminData();
   return (
     <main>
-      <AdminContext.Provider value={AdminContextDefault}>
-        {children}
-      </AdminContext.Provider>
+      <AuthProvider>
+        <AuthCheck>{children}</AuthCheck>
+      </AuthProvider>
     </main>
   );
 }

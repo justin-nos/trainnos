@@ -10,5 +10,15 @@ const nextConfig = {
     ];
   },
   skipTrailingSlashRedirect: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+        pathname:
+          "/v0/b/nos-training-facility.appspot.com/o/testimonialImages**",
+      },
+    ],
+  },
 };
 export default nextConfig;
