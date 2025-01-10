@@ -71,7 +71,7 @@ export default async function Testimonials() {
             Testimonials
           </h2>
           <p className="mt-2 text-balance text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-            We're thankful for all of you
+            We&#39;re thankful for all of you
           </p>
         </div>
         <Suspense

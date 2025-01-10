@@ -112,7 +112,7 @@ export default function TestimonialForm({validSlug}) {
                 />
               </div>
               <p className="mt-3 text-sm/6 text-gray-600">
-                What's your one-sentence summary of NOS?
+                What&#39;s your one-sentence summary of NOS?
               </p>
             </div>
             <div className="col-span-full">
@@ -132,9 +132,9 @@ export default function TestimonialForm({validSlug}) {
                 />
               </div>
               <p className="mt-3 text-sm/6 text-gray-600">
-                Feel free to elaborate on how you've been changed by NOS. How
-                did you feel when you first came to NOS? What did we help you
-                achieve? What did we help you overcome?
+                Feel free to elaborate on how you&#39;ve been changed by NOS.
+                How did you feel when you first came to NOS? What did we help
+                you achieve? What did we help you overcome?
               </p>
             </div>
 
