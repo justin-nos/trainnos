@@ -38,7 +38,7 @@ export default function TestimonialForm({validSlug}) {
     });
 
     if (response.ok) {
-      // Handle success scenario (redirect, clear form, show message, etc.)
+      console.log(response);
     } else {
       console.log("RRRR");
     }
