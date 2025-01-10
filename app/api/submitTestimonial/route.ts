@@ -7,6 +7,7 @@ export async function POST(request: Request) {
   const formData = await request.formData();
   const postID = randomId(30, "aA0");
   const token = request.headers.get("Authorization");
+  console.log(token);
 
   const tokenDoc = await getDoc(doc(firestoreDB, "adminkeys", token));
   if (!tokenDoc.exists()) {

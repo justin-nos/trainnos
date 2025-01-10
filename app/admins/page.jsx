@@ -2,7 +2,6 @@
 import {useContext} from "react";
 import AdminNavbar from "../../components/client/AdminNavbar";
 import {AdminContext} from "../../lib/context";
-import {useAdminReroute} from "../../lib/hooks";
 import TestimonialLinkCreation from "../admins/makeTestimonialLink/page";
 
 export default function Dashboard() {
