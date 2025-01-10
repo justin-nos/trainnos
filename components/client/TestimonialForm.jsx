@@ -39,6 +39,11 @@ export default function TestimonialForm({validSlug}) {
 
     if (response.ok) {
       console.log(response);
+      return (
+        <div className="w-screen h-screen font-thin place-content-center text-center">
+          Success! Thank you for your Testimonial!
+        </div>
+      );
     } else {
       console.log("RRRR");
     }
