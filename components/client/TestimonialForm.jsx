@@ -2,6 +2,7 @@
 import {last} from "lodash";
 import {useState} from "react";
 import {PhotoIcon, UserCircleIcon} from "@heroicons/react/24/solid";
+import {revalidatePath} from "next/cache";
 
 export default function TestimonialForm({validSlug}) {
   const [formState, setFormState] = useState({
@@ -39,6 +40,7 @@ export default function TestimonialForm({validSlug}) {
 
     if (response.ok) {
       console.log(response);
+      revalidatePath("/testimonials");
       return (
         <div className="w-screen h-screen font-thin place-content-center text-center">
           Success! Thank you for your Testimonial!
