@@ -1,3 +1,4 @@
+"use server";
 import {firestoreDB, storage} from "../../../lib/firebase";
 import {getDoc, setDoc, doc, deleteDoc} from "firebase/firestore";
 import {uploadBytes, ref} from "firebase/storage";
