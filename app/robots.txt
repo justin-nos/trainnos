@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /tesimonials/create/
+Disallow: /api
+Disallow: /admins/
