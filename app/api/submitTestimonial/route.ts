@@ -1,6 +1,7 @@
 import {firestoreDB, storage} from "../../../lib/firebase";
 import {getDoc, setDoc, doc, deleteDoc} from "firebase/firestore";
 import {uploadBytes, ref} from "firebase/storage";
+import {revalidatePath} from "next/cache";
 import randomId from "random-id";
 
 export async function POST(request: Request) {
@@ -60,6 +61,6 @@ export async function POST(request: Request) {
     console.error("Error when deleting token", err);
     return new Response(`Webhook error: ${err.message}`, {status: 500});
   }
-
+  revalidatePath("/testimonials");
   return new Response("Success!!", {status: 200});
 }
