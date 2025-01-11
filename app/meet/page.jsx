@@ -6,6 +6,7 @@ import {MdMail} from "react-icons/md";
 import {FiPhoneOutgoing} from "react-icons/fi";
 import {TiContacts} from "react-icons/ti";
 import Mailto from "../../components/server/emailAssets";
+import Head from "next/head";
 
 const gavinContact =
   "data:text/vcard;charset=utf-8,%20BEGIN:VCARD%0D%0AVERSION:3.0%0D%0APRODID:-//Apple Inc.//macOS 15.2//EN%0D%0AN:Willisson;Gavin;;;%0D%0AFN:Gavin Willisson%0D%0AORG:NOS;%0D%0AEMAIL;type=INTERNET;type=WORK;type=pref:gavin@trainnos.com%0D%0ATEL;type=pref:+12516566025%0D%0AEND:VCARD";
@@ -35,66 +36,75 @@ const people = [
 
 export default function Meet() {
   return (
-    <div className="bg-white py-24 md:py-32 lg:py-40">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-20 px-6 lg:px-8 xl:grid-cols-3">
-        <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2 className="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-            Our team
-          </h2>
-          <p className="mt-6 text-lg/8 text-gray-600">
-            There is no off season in life! Therefore, our mission is to come
-            along side you to build confidence, grow physically, and cultivate
-            lifelong purpose within a Christ centered gym community.
-          </p>
+    <>
+      <Head>
+        <title>Meet Gavin and Brannon | No Off Season</title>
+        <meta
+          name="description"
+          content="We exist to come along side you to build confidence, grow physically, and cultivate lifelong purpose within a Christ-centered gym community. There is no off season in life!"
+        />
+      </Head>
+      <div className="bg-white py-24 md:py-32 lg:py-40">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-20 px-6 lg:px-8 xl:grid-cols-3">
+          <div className="mx-auto max-w-2xl lg:mx-0">
+            <h2 className="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+              Our team
+            </h2>
+            <p className="mt-6 text-lg/8 text-gray-600">
+              There is no off season in life! Therefore, our mission is to come
+              along side you to build confidence, grow physically, and cultivate
+              lifelong purpose within a Christ centered gym community.
+            </p>
+          </div>
+          <ul
+            role="list"
+            className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-20 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:gap-x-8 xl:col-span-2"
+          >
+            {people.map(person => (
+              <li key={person.name}>
+                <Image
+                  alt=""
+                  width={750}
+                  height={500}
+                  src={person.imageUrl}
+                  className="w-full rounded-2xl object-center object-fill"
+                />
+                <h3 className="mt-6 text-lg/8 font-semibold text-gray-900">
+                  {person.name}
+                </h3>
+                <p className="text-base/7 text-gray-600">{person.role}</p>
+                <p className="mt-4 text-base/7 text-gray-600">{person.bio}</p>
+                <ul role="list" className="mt-6 flex gap-x-6">
+                  <li>
+                    <Mailto
+                      email={person.emailUrl}
+                      subject="Hello! My Name is ..."
+                      body="I am interested in/have a question about..."
+                    >
+                      <span className="sr-only">Email</span>
+                      <MdMail />
+                    </Mailto>
+                  </li>
+                  <li>
+                    <a
+                      href={person.phoneUrl}
+                      className="text-gray-400 hover:text-gray-500"
+                    >
+                      <span className="sr-only">Phone</span>
+                      <FiPhoneOutgoing />
+                    </a>
+                  </li>
+                  <li>
+                    <a href={person.contactUrl}>
+                      <TiContacts />
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul
-          role="list"
-          className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-20 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:gap-x-8 xl:col-span-2"
-        >
-          {people.map(person => (
-            <li key={person.name}>
-              <Image
-                alt=""
-                width={750}
-                height={500}
-                src={person.imageUrl}
-                className="w-full rounded-2xl object-center object-fill"
-              />
-              <h3 className="mt-6 text-lg/8 font-semibold text-gray-900">
-                {person.name}
-              </h3>
-              <p className="text-base/7 text-gray-600">{person.role}</p>
-              <p className="mt-4 text-base/7 text-gray-600">{person.bio}</p>
-              <ul role="list" className="mt-6 flex gap-x-6">
-                <li>
-                  <Mailto
-                    email={person.emailUrl}
-                    subject="Hello! My Name is ..."
-                    body="I am interested in/have a question about..."
-                  >
-                    <span className="sr-only">Email</span>
-                    <MdMail />
-                  </Mailto>
-                </li>
-                <li>
-                  <a
-                    href={person.phoneUrl}
-                    className="text-gray-400 hover:text-gray-500"
-                  >
-                    <span className="sr-only">Phone</span>
-                    <FiPhoneOutgoing />
-                  </a>
-                </li>
-                <li>
-                  <a href={person.contactUrl}>
-                    <TiContacts />
-                  </a>
-                </li>
-              </ul>
-            </li>
-          ))}
-        </ul>
       </div>
-    </div>
+    </>
   );
 }

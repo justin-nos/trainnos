@@ -10,7 +10,6 @@ export default function Dashboard() {
     <>
       <div className="min-h-full">
         <AdminNavbar />
-
         <div className="py-10">
           <header>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

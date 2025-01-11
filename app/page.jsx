@@ -8,43 +8,45 @@ import Image from "next/image";
 export default function Home({}) {
   return (
     <main>
-      <div className="bg-gray-900 w-screen font-helvetica">
-        <div className="relative isolate overflow-hidden pt-14">
-          <video
-            loop
-            controls={false}
-            autoPlay
-            muted
-            playsInline
-            className="absolute inset-0 -z-20 h-full w-full object-cover"
-          >
-            <source src="/herovideo.mp4" type="video/mp4" />
-          </video>
-          <div
-            className="absolute inset-0 -z-10 bg-black opacity-50"
-            aria-hidden="true"
-          ></div>
-          <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-            <div className="text-center">
-              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                Train Effectively <br></br>Be Prepared
-              </h1>
-              <p className="mt-6 text-lg leading-8 text-gray-300">
-                You can get results-driven training for any situation{" "}
-                <span className="text-white">today</span>.
-              </p>
-              <div className="mt-10 flex items-center justify-center gap-x-6">
-                <Link
-                  href="https://trainnos.pushpress.com/landing/plans"
-                  className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
-                >
-                  View Plans
-                </Link>
+      <header>
+        <div className="bg-gray-900 w-screen font-helvetica">
+          <div className="relative isolate overflow-hidden pt-14">
+            <video
+              loop
+              controls={false}
+              autoPlay
+              muted
+              playsInline
+              className="absolute inset-0 -z-20 h-full w-full object-cover"
+            >
+              <source src="/herovideo.mp4" type="video/mp4" />
+            </video>
+            <div
+              className="absolute inset-0 -z-10 bg-black opacity-50"
+              aria-hidden="true"
+            ></div>
+            <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+              <div className="text-center">
+                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+                  Train Effectively <br></br>Be Prepared
+                </h1>
+                <p className="mt-6 text-lg leading-8 text-gray-300">
+                  You can get results-driven training for any situation{" "}
+                  <span className="text-white">today</span>.
+                </p>
+                <div className="mt-10 flex items-center justify-center gap-x-6">
+                  <Link
+                    href="https://trainnos.pushpress.com/landing/plans"
+                    className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                  >
+                    View Plans
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </header>
       <section className="relative overflow-hidden px-6 lg:px-8">
         <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] bg-[radial-gradient(50%_100%_at_top,theme(colors.red.200),white)] opacity-20 lg:left-36" />
         <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-right skew-x-[45deg] bg-white shadow-xl shadow-red-400/10 ring-1 ring-red-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
