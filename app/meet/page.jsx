@@ -63,7 +63,7 @@ export default function Meet() {
             {people.map(person => (
               <li key={person.name}>
                 <Image
-                  alt=""
+                  alt={`Image of ${person.name}`}
                   width={750}
                   height={500}
                   src={person.imageUrl}

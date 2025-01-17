@@ -8,7 +8,8 @@ import {CSPostHogProvider} from "./providers";
 const inter = Inter({subsets: ["latin"]});
 
 export const metadata = {
-  title: "Elevate Your Fitness: Premier Gym & Training Programs in Daphne, AL",
+  title:
+    "Results-Based Fitness for Every Age, Stage, and Goal - No Off Season in Daphne, AL",
   description:
     "No Off Season is a gym in Daphne, Al. It is owned locally, by Brannon and Gavin Willisson. We exist to bring high-quality, encouraging exercise to all who need it. Our Address is: 25620 Friendship Rd, Daphne, AL 36526",
 };

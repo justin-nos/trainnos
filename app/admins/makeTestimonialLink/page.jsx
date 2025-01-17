@@ -36,7 +36,13 @@ export default function TestimonialLinkCreation({}) {
     e.preventDefault();
     const randomconst = randomId(30, "aA0");
     try {
-      await setDoc(doc(firestoreDB, "adminkeys", `${randomconst}`), {});
+      await fetch("/api/generateKey", {
+        method: "POST",
+        body: JSON.stringify({adminkey: randomconst}),
+        headers: {
+          Authorization: process.env.NEXT_PUBLIC_SERVERFUNCTION_KEY,
+        },
+      });
       SetLinks([...links, randomconst]);
     } catch (err) {
       console.error(err);

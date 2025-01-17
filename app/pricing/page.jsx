@@ -51,6 +51,7 @@ export default function Pricing() {
     <>
       <Head>
         <title>Pricing: Turn Fitness Goals into Action | No Off Season</title>
+        <meta name="description" />
       </Head>
       <div className="bg-white py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">

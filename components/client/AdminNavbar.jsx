@@ -15,7 +15,7 @@ import Image from "next/image";
 
 const user = {
   name: "NOS Admin",
-  email: "tom@example.com",
+  email: "admin@trainnos.com",
   imageUrl:
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
@@ -78,7 +78,7 @@ export default function AdminNavbar({}) {
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">Open user menu</span>
                   <img
-                    alt=""
+                    alt="Image of "
                     src={user.imageUrl}
                     className="size-8 rounded-full"
                   />

@@ -1,15 +1,11 @@
-import {usePathValidation} from "../../../../lib/hooks";
-import {doc, getDoc} from "firebase/firestore";
-import {firestoreDB} from "../../../../lib/firebase";
 import {redirect} from "next/navigation";
 import TestimonialForm from "../../../../components/client/TestimonialForm";
 import FunctionAfterForm from "../../../../components/server/FormFunction";
+import {initializeAdminApp} from "../../../../lib/initFirebaseAdmin";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{validationSlug: string}>;
-}) {
+const firestoreDB = initializeAdminApp();
+
+export default async function Page({params}) {
   let validAuth = undefined;
   const {validationSlug} = await params;
   try {
@@ -18,10 +14,12 @@ export default async function Page({
       throw new Error("No slug provided");
     }
     // Use the slug to fetch data
-    const docRef = doc(firestoreDB, "adminkeys", validationSlug);
-    const docSnapshot = await getDoc(docRef);
+    const docSnap = firestoreDB
+      .collection("adminkeys")
+      .doc(validationSlug)
+      .get();
 
-    if (!docSnapshot.exists()) {
+    if (!(await docSnap).exists) {
       validAuth = false;
     } else {
       validAuth = true;

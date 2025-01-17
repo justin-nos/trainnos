@@ -3,9 +3,11 @@ import {useContext} from "react";
 import AdminNavbar from "../../components/client/AdminNavbar";
 import {AdminContext} from "../../lib/context";
 import TestimonialLinkCreation from "../admins/makeTestimonialLink/page";
+import {getAuth} from "firebase/auth";
 
 export default function Dashboard() {
-  const {admin} = useContext(AdminContext);
+  const auth = getAuth();
+  console.log("auth from firestore: " + {...auth});
   return (
     <>
       <div className="min-h-full">

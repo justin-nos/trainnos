@@ -1,12 +1,8 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "strict": false,
     "noEmit": true,
     "incremental": true,
@@ -28,9 +24,11 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "components/server/footer.jsx"
+    "components/server/footer.jsx",
+    "app/api/submitEmail/route.js",
+    "lib/nextauthfirestoreinit.js",
+    "app/testimonials/create/[validationSlug]/page.jsx",
+    "lib/initFirebaseAdmin.js"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

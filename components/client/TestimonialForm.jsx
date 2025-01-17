@@ -2,6 +2,7 @@
 import {last} from "lodash";
 import {useState} from "react";
 import {PhotoIcon, UserCircleIcon} from "@heroicons/react/24/solid";
+import {GrAchievement} from "react-icons/gr";
 
 export default function TestimonialForm({validSlug}) {
   const [formState, setFormState] = useState({
@@ -11,6 +12,9 @@ export default function TestimonialForm({validSlug}) {
     text: "",
     photo: null,
   });
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = e => {
     if (e.target.type === "file") {
@@ -25,31 +29,39 @@ export default function TestimonialForm({validSlug}) {
 
   const handleSubmit = async e => {
     e.preventDefault();
-
+    setLoading(true);
     const formData = new FormData();
     Object.keys(formState).forEach(key => formData.append(key, formState[key]));
-
-    const response = await fetch("/api/submitTestimonial", {
-      method: "POST",
-      body: formData,
-      headers: {
-        Authorization: validSlug,
-      },
-    });
-
-    if (response.ok) {
-      console.log(response);
-      return (
-        <div className="w-screen h-screen font-thin place-content-center text-center">
-          Success! Thank you for your Testimonial!
+    try {
+      const response = await fetch("/api/submitTestimonial", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: validSlug,
+        },
+      });
+      setLoading(false);
+      setSuccess(
+        <div className="bg-slate-800 text-2xl p-6 rounded-xl w-screen h-screen place-content-center">
+          Success! Thank you for your Testimonial!{" "}
+          <GrAchievement className="fill-green-300 border-green-300 stroke-green-300 ml-2 md:ml-4 w-10 md-w-32" />
         </div>
       );
-    } else {
-      console.log("RRRR");
+    } catch (error) {
+      setError(
+        <div className="bg-red-200 p-6 rounded-xl">{error.message}</div>
+      );
+      setLoading(false);
     }
   };
 
-  return (
+  return loading ? (
+    <div>Loading...</div>
+  ) : error ? (
+    error
+  ) : success ? (
+    success
+  ) : (
     <form onSubmit={handleSubmit} onChange={handleChange}>
       <div className="space-y-12 py-12 px-12">
         <div className="border-b border-gray-900/10 pb-12">
@@ -150,6 +162,13 @@ export default function TestimonialForm({validSlug}) {
               >
                 Photo - Your favorite photo of yourself
               </label>
+              {formState.photo ? (
+                <div className="text-xl text-slate-700 font-bold">
+                  {formState.photo.name}
+                </div>
+              ) : (
+                <></>
+              )}
               <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                 <div className="text-center">
                   <PhotoIcon
@@ -172,7 +191,7 @@ export default function TestimonialForm({validSlug}) {
                     <p className="pl-1">or drag and drop</p>
                   </div>
                   <p className="text-xs/5 text-gray-600">
-                    PNG, JPG, GIF up to 10MB
+                    PNG or JPG up to 10MB
                   </p>
                 </div>
               </div>

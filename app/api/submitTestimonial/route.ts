@@ -1,27 +1,32 @@
 "use server";
-import {firestoreDB, storage} from "../../../lib/firebase";
+import {storage} from "../../../lib/firebase";
 import {getDoc, setDoc, doc, deleteDoc} from "firebase/firestore";
 import {uploadBytes, ref} from "firebase/storage";
 import {revalidatePath} from "next/cache";
 import randomId from "random-id";
+import {initializeAdminApp} from "../../../lib/initFirebaseAdmin";
+
+const firestoreDB = initializeAdminApp();
 
 export async function POST(request: Request) {
   const formData = await request.formData();
   const postID = randomId(30, "aA0");
   const token = request.headers.get("Authorization");
   console.log(token);
-  const tokenDoc = await getDoc(doc(firestoreDB, "adminkeys", token));
-  if (!tokenDoc.exists()) {
+  const tokenDoc = await firestoreDB.collection("adminkeys").doc(token).get();
+  if (!tokenDoc.exists) {
     return new Response("Invalid token", {status: 401});
   }
-
   try {
-    await setDoc(doc(firestoreDB, "testimonials", postID), {
-      firstName: formData.get("firstName"),
-      lastName: formData.get("lastName"),
-      title: formData.get("title"),
-      text: formData.get("text"),
-    });
+    await firestoreDB
+      .collection("testimonials")
+      .doc(postID)
+      .set({
+        firstName: formData.get("firstName"),
+        lastName: formData.get("lastName"),
+        title: formData.get("title"),
+        text: formData.get("text"),
+      });
   } catch (err) {
     console.error("Error when setting Firestore Docs", err);
     return new Response(`Webhook error: ${err.message}`, {status: 500});
@@ -55,7 +60,7 @@ export async function POST(request: Request) {
 
   try {
     // Assuming the token is stored in a document with the same ID as postID
-    await deleteDoc(doc(firestoreDB, "adminkeys", token));
+    await firestoreDB.collection("adminkeys").doc(token).delete();
     console.log("Token deleted successfully!");
   } catch (err) {
     console.error("Error when deleting token", err);

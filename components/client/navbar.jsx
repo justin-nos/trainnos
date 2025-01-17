@@ -29,7 +29,13 @@ const navigation = [
   },
 ];
 
-const whiteBGPaths = ["/meet", "/pricing", "/admins/login", "/testimonials"];
+const whiteBGPaths = [
+  "/meet",
+  "/pricing",
+  "/admins/login",
+  "/testimonials",
+  "/diet",
+];
 const dontDisplayNavPaths = ["/admins"];
 
 export default function Navbar({}) {
@@ -68,7 +74,7 @@ function DefaultHeader({needBlackTextPass}) {
             <Image
               className="h-8 w-auto "
               src={needBlackTextPass ? logoPNGBlack : logoPNG}
-              alt=""
+              alt="Logo of No Off Season"
             />
           </Link>
         </div>

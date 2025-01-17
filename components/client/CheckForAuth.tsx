@@ -13,6 +13,10 @@ export default function AuthCheck({children}: {children: React.ReactNode}) {
     setIsClient(true);
   }, []);
 
+  useEffect(() => {
+    console.log(session);
+  }, [session]);
+
   if (isClient && status === "loading") return null;
   else if (!session && isClient) {
     setTimeout(() => {

@@ -7,6 +7,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1,
+      videos: [
+        {
+          title: "What to Expect at NOS",
+          thumbnail_loc: "https://trainnos.com/public/WHATTOEXPECTTN.png",
+          description:
+            "Here is what you can expect as you walk through our door.",
+        },
+      ],
     },
     {
       url: "https://trainnos.com/pricing",
