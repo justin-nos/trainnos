@@ -17,6 +17,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ],
     },
     {
+      url: "https://trainnos.com/whattoexpect",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.4,
+    },
+    {
       url: "https://trainnos.com/pricing",
       lastModified: new Date(),
       changeFrequency: "monthly",
@@ -33,6 +39,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
+    },
+    {
+      url: "https://trainnos.com/diet",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.2,
     },
   ];
 }
