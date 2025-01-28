@@ -2,8 +2,6 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import {Account, Profile, User} from "next-auth";
 import {GoogleProfile} from "next-auth/providers/google";
-import {FirestoreAdapter} from "@auth/firebase-adapter";
-import {getAuth, signInWithCustomToken} from "firebase/auth";
 
 const authOptions = {
   providers: [
@@ -37,4 +35,5 @@ const authOptions = {
     },
   },
 };
-export const {handlers, signIn, signOut, auth} = NextAuth(authOptions);
+export const nextAuth = NextAuth(authOptions);
+export const {handlers, signIn, signOut, auth} = nextAuth;

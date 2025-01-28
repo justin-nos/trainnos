@@ -4,6 +4,9 @@ import {getDownloadURL, ref} from "firebase/storage";
 import {FirebaseError} from "firebase/app";
 import Image from "next/image";
 import {Suspense} from "react";
+import {initializeAdminApp} from "../../lib/initFirebaseAdmin";
+
+const firestoreDB = initializeAdminApp();
 
 type testimonial = {
   id: string;
@@ -15,7 +18,7 @@ type testimonial = {
 
 async function getTestimonials() {
   try {
-    const docsSnap = await getDocs(collection(firestoreDB, "testimonials"));
+    const docsSnap = await firestoreDB.collectionGroup("testimonials").get();
     const testimonials: testimonial[] = [];
     const imagePromises = docsSnap.docs.map(doc => {
       const pngRef = ref(storage, `testimonialImages/${doc.id}.png`);

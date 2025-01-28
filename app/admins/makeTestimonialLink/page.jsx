@@ -56,7 +56,7 @@ export default function TestimonialLinkCreation({}) {
           createAdminLink(e);
         }}
       >
-        Create an admin link
+        Create a testimonial form link
       </button>
     );
   };
