@@ -42,9 +42,11 @@ export default function TestimonialForm({validSlug}) {
       });
       setLoading(false);
       setSuccess(
-        <div className="bg-slate-800 text-2xl p-6 rounded-xl w-screen h-screen place-content-center">
-          Success! Thank you for your Testimonial!{" "}
-          <GrAchievement className="fill-green-300 border-green-300 stroke-green-300 ml-2 md:ml-4 w-10 md-w-32" />
+        <div className="bg-slate-800 w-screen h-screen  grid place-content-center justify-center justify-items-center">
+          <div className="text-4xl p-6 rounded-xltext-center text-white">
+            Success! Thank you for your Testimonial!{" "}
+            <GrAchievement className="fill-green-300 border-green-300 stroke-green-300 ml-2 md:ml-4 w-24 md:w-32 h-auto place-self-center" />
+          </div>
         </div>
       );
     } catch (error) {
@@ -56,7 +58,11 @@ export default function TestimonialForm({validSlug}) {
   };
 
   return loading ? (
-    <div>Loading...</div>
+    <div className="w-screen h-screen  bg-gray-400 grid place-content-center justify-center justify-items-center">
+      <div className="text-3xl text-white text-center my-auto animate-pulse">
+        Loading...
+      </div>
+    </div>
   ) : error ? (
     error
   ) : success ? (
@@ -87,6 +93,7 @@ export default function TestimonialForm({validSlug}) {
                     id="firstName"
                     name="firstName"
                     type="text"
+                    required={true}
                     placeholder="First Name"
                     className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
                   />
@@ -106,6 +113,7 @@ export default function TestimonialForm({validSlug}) {
                     id="lastName"
                     name="lastName"
                     type="text"
+                    required={true}
                     placeholder="First Name"
                     className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
                   />
@@ -144,6 +152,7 @@ export default function TestimonialForm({validSlug}) {
                   id="text"
                   name="text"
                   rows={3}
+                  required={true}
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-red-500 sm:text-sm/6"
                   defaultValue={""}
                 />
@@ -185,6 +194,7 @@ export default function TestimonialForm({validSlug}) {
                         id="file-upload"
                         name="file-upload"
                         type="file"
+                        required={true}
                         className="sr-only"
                       />
                     </label>

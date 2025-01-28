@@ -1,5 +1,6 @@
+"use server";
 import {collection, getDocs} from "firebase/firestore";
-import {firestoreDB, storage} from "../../lib/firebase";
+import {storage} from "../../lib/firebase";
 import {getDownloadURL, ref} from "firebase/storage";
 import {FirebaseError} from "firebase/app";
 import Image from "next/image";
