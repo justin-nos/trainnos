@@ -4,6 +4,7 @@ import MonicaPic from "../public/Monica.png";
 import HillaryPic from "../public/Hillary.png";
 import MaggiePic from "../public/Maggie.png";
 import Image from "next/image";
+import TemporaryEventSection from "../components/client/coursesSection";
 
 export default function Home({}) {
   return (
@@ -47,6 +48,7 @@ export default function Home({}) {
           </div>
         </div>
       </header>
+      <TemporaryEventSection />
       <section className="relative overflow-hidden px-6 lg:px-8">
         <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] bg-[radial-gradient(50%_100%_at_top,theme(colors.red.200),white)] opacity-20 lg:left-36" />
         <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-right skew-x-[45deg] bg-white shadow-xl shadow-red-400/10 ring-1 ring-red-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
