@@ -6,12 +6,14 @@ export default function ChristmasFest({}) {
       className="relative flex flex-col items-center justify-center min-h-screen
     "
     >
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-20">
+      <div className="absolute inset-0 w-full h-full -z-20 overflow-hidden">
         <Image
           src="/christmaspic.png"
           alt="Christmas Fest"
-          layout="fill"
-          objectFit="cover"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
         />
       </div>
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-20 blur-sm brightness-50 bg-white bg-opacity-50"></div>

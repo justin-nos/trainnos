@@ -4,7 +4,6 @@ import MonicaPic from "../public/Monica.png";
 import HillaryPic from "../public/Hillary.png";
 import MaggiePic from "../public/Maggie.png";
 import Image from "next/image";
-import TemporaryEventSection from "../components/client/coursesSection";
 import ChristmasFest from "../components/client/ChristmasFest";
 
 export default function Home({}) {
