@@ -52,7 +52,7 @@ export default function Home({}) {
           </div>
         </div>
       </header>
-      <ChristmasFest />
+
       <section className="relative overflow-hidden px-6 lg:px-8">
         <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] bg-[radial-gradient(50%_100%_at_top,theme(colors.red.200),white)] opacity-20 lg:left-36" />
         <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-right skew-x-[45deg] bg-white shadow-xl shadow-red-400/10 ring-1 ring-red-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
@@ -73,6 +73,7 @@ export default function Home({}) {
           className="aspect-video w-screen md:w-4/5 mr-0 ml-auto mt-6 md:mt-12 rounded-2xl"
         ></video>
       </section>
+      <ChristmasFest />
       <section className="relative isolate overflow-hidden px-6 lg:px-8">
         <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] -translate-x-1/2 bg-[radial-gradient(50%_100%_at_top,theme(colors.indigo.100),white)] opacity-20 lg:left-36" />
         <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
