@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import pricingimage from "../../public/nos-pricing.JPEG";
 import {CheckCircleIcon} from "@heroicons/react/20/solid";
 import ExpectButton from "../../components/client/ExpectButton";

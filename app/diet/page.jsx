@@ -4,7 +4,7 @@ import {
   HandRaisedIcon,
 } from "@heroicons/react/20/solid";
 import logoPNGBlack from "../favicon.ico";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import dietPicture from "../../public/diet.jpg";
 import EmailSubmissionForm from "../../components/client/EmailForm";

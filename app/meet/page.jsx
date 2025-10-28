@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import GavinSrc from "../../public/Gavin_MeetUs.png";
 import BrannonSrc from "../../public/Brannon_MeetUs.png";

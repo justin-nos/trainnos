@@ -3,7 +3,7 @@ import {collection, getDocs} from "firebase/firestore";
 import {storage} from "../../lib/firebase";
 import {getDownloadURL, ref} from "firebase/storage";
 import {FirebaseError} from "firebase/app";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import {Suspense} from "react";
 import {initializeAdminApp} from "../../lib/initFirebaseAdmin";
 
