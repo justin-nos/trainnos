@@ -11,7 +11,7 @@ import {
 import {Bars3Icon, BellIcon, XMarkIcon} from "@heroicons/react/24/outline";
 import ShieldB from "../../public/SHIELDB";
 import fullLOGOSource from "../../public/NOSLogo.png";
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 const user = {
   name: "NOS Admin",

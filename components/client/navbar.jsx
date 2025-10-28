@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import logoPNG from "../../public/NOSWHITE_1.png";
 import logoPNGBlack from "../../public/NOSLogo.png";
 import Link from "next/link";

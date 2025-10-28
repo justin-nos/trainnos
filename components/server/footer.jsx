@@ -1,6 +1,6 @@
 import logoSRC from "../../public/NOSWHITE_1.png";
 import Link from "next/link";
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 const navigation = {
   solutions: [
