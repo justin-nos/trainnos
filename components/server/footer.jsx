@@ -71,13 +71,14 @@ export default function Footer() {
     <footer className="bg-slate-800">
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-8 sm:pt-12 lg:px-8 lg:pt-16">
         <div className="xl:grid xl:grid-cols-3 xl:gap-4">
-          <Image
-            alt="Company name"
-            width={400}
-            height={150}
-            src={logoSRC}
-            className="h-9 origin-center bg-fill w-28"
-          />
+          <div className="relative h-9 w-28">
+            <Image
+              alt="Company name"
+              fill
+              src={logoSRC}
+              className="origin-center object-contain"
+            />
+          </div>
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
@@ -122,7 +123,7 @@ export default function Footer() {
        
           <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 lg:mt-24 lg:flex lg:items-center lg:justify-between">
           <div>
-            <h3 className="text-sm/6 font-semibold text-white">
+   </div>         <h3 className="text-sm/6 font-semibold text-white">
               Subscribe to our newsletter
             </h3>
             <p className="mt-2 text-sm/6 text-gray-300">
@@ -135,7 +136,7 @@ export default function Footer() {
               Email address
             </label>
             <input
-              id="email-address"
+              i</p>d="email-address"
               name="email-address"
               type="email"
               required
