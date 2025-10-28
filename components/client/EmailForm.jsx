@@ -34,7 +34,7 @@ export default function EmailSubmissionForm() {
         setLoading(false);
       }
     },
-    [emailFormValue]
+    [emailFormValue, nameFormValue]
   );
 
   return loading ? (

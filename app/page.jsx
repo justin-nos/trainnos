@@ -5,6 +5,7 @@ import HillaryPic from "../public/Hillary.png";
 import MaggiePic from "../public/Maggie.png";
 import Image from "next/image";
 import TemporaryEventSection from "../components/client/coursesSection";
+import ChristmasFest from "../components/client/ChristmasFest";
 
 export default function Home({}) {
   return (
@@ -23,13 +24,16 @@ export default function Home({}) {
               <source src="/herovideo.mp4" type="video/mp4" />
             </video>
             <div
-              className="absolute inset-0 -z-10 bg-black opacity-50"
+              className="absolute inset-0 -z-10 bg-black opacity-70"
               aria-hidden="true"
             ></div>
             <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
               <div className="text-center">
+                <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl my-8">
+                  Welcome...
+                </h1>
                 <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                  Train Effectively <br></br>Be Prepared
+                  Are you ready to crush it?
                 </h1>
                 <p className="mt-6 text-lg leading-8 text-gray-300">
                   You can get results-driven training for any situation{" "}
@@ -48,7 +52,7 @@ export default function Home({}) {
           </div>
         </div>
       </header>
-      <TemporaryEventSection />
+      <ChristmasFest />
       <section className="relative overflow-hidden px-6 lg:px-8">
         <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] bg-[radial-gradient(50%_100%_at_top,theme(colors.red.200),white)] opacity-20 lg:left-36" />
         <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-right skew-x-[45deg] bg-white shadow-xl shadow-red-400/10 ring-1 ring-red-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
