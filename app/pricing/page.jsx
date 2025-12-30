@@ -1,5 +1,3 @@
-import Image from "next/image";
-import pricingimage from "../../public/nos-pricing.JPEG";
 import {CheckCircleIcon} from "@heroicons/react/20/solid";
 import ExpectButton from "../../components/client/ExpectButton";
 import Head from "next/head";
