@@ -17,6 +17,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ],
     },
     {
+      url: "https://trainnos.com/start",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
       url: "https://trainnos.com/whattoexpect",
       lastModified: new Date(),
       changeFrequency: "monthly",
