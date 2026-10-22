@@ -1,6 +1,7 @@
 import {CheckCircleIcon} from "@heroicons/react/20/solid";
 import ExpectButton from "../../components/client/ExpectButton";
 import Head from "next/head";
+import Link from "next/link";
 
 const tiers = [
   {
@@ -61,6 +62,15 @@ export default function Pricing() {
           </div>
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg font-medium text-gray-600 sm:text-center sm:text-xl/8">
             Choose a plan that fits your needs.
+          </p>
+          <p className="mx-auto mt-3 max-w-2xl text-pretty text-base text-gray-600 sm:text-center">
+            Not sure which?{" "}
+            <Link
+              href="/start"
+              className="font-semibold text-red-500 hover:text-red-400"
+            >
+              Find your fit in 60 seconds <span aria-hidden="true">&rarr;</span>
+            </Link>
           </p>
           <div className="mx-auto mt-3 text-center">
             also see

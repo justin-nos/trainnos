@@ -37,12 +37,12 @@ export default function Home({}) {
                   You can get results-driven training for any situation{" "}
                   <span className="text-white">today</span>.
                 </p>
-                <div className="mt-10 flex items-center justify-center gap-x-6">
+                <div className="mt-10 flex items-center justify-center">
                   <Link
-                    href="https://trainnos.pushpress.com/landing/plans"
-                    className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-red-400 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                    href="/start"
+                    className="rounded-full bg-red-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-red-500/30 hover:bg-red-400 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
                   >
-                    View Plans
+                    Find Your Fit — 60 sec
                   </Link>
                 </div>
               </div>
@@ -230,6 +230,37 @@ export default function Home({}) {
               <div className="font-semibold text-gray-900">Monica Peterson</div>
             </figcaption>
           </figure>
+        </div>
+      </section>
+      <section className="px-6 pb-24 lg:px-8">
+        <div className="relative isolate mx-auto max-w-5xl overflow-hidden rounded-3xl bg-gray-950 px-6 py-16 text-center shadow-2xl sm:px-16 sm:py-24">
+          <div
+            aria-hidden="true"
+            className="absolute -left-24 -top-24 -z-10 size-96 rounded-full bg-red-600/40 blur-3xl"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute -bottom-32 -right-24 -z-10 size-96 rounded-full bg-orange-500/30 blur-3xl"
+          />
+          <p className="text-sm font-semibold uppercase tracking-widest text-red-400">
+            Not sure where to start?
+          </p>
+          <h2 className="mx-auto mt-4 max-w-2xl text-balance text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            Find your fit in 60 seconds.
+          </h2>
+          <p className="mx-auto mt-6 max-w-xl text-pretty text-lg leading-8 text-gray-300">
+            Answer a few quick questions and we&rsquo;ll match you with the
+            right training: private, semi-private, group, or our kids
+            course.
+          </p>
+          <div className="mt-10 flex justify-center">
+            <Link
+              href="/start"
+              className="rounded-full bg-red-500 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-red-500/30 hover:bg-red-400 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
+            >
+              Find Your Fit <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
         </div>
       </section>
     </main>

@@ -103,10 +103,10 @@ function DefaultHeader({needBlackTextPass}) {
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link
-            href="https://trainnos.pushpress.com/landing/plans"
-            className="text-sm font-semibold leading-6 "
+            href="/start"
+            className="rounded-full bg-red-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
           >
-            View Plans <span aria-hidden="true">&rarr;</span>
+            Find Your Fit <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
       </nav>
@@ -151,10 +151,11 @@ function DefaultHeader({needBlackTextPass}) {
               </div>
               <div className="py-6">
                 <Link
-                  href="https://trainnos.pushpress.com/landing/plans"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800"
+                  href="/start"
+                  className="block rounded-full bg-red-500 px-4 py-2.5 text-center text-base font-semibold leading-7 text-white hover:bg-red-400"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
-                  View Plans
+                  Find Your Fit
                 </Link>
               </div>
             </div>
