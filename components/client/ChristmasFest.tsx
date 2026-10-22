@@ -16,7 +16,7 @@ export default function ChristmasFest({}) {
           priority
         />
       </div>
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-20 blur-sm brightness-50 bg-white bg-opacity-50"></div>
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-20 blur-xs brightness-50 bg-white/50"></div>
       <div className="text-center space-y-8 max-w-4xl mx-auto">
         <h1 className="text-4xl font-thin text-white mt-8">
           Upcoming Event...

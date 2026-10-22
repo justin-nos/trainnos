@@ -40,7 +40,7 @@ export default function Home({}) {
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <Link
                     href="https://trainnos.pushpress.com/landing/plans"
-                    className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                    className="rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-red-400 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
                   >
                     View Plans
                   </Link>
@@ -52,9 +52,9 @@ export default function Home({}) {
       </header>
 
       <section className="relative overflow-hidden px-6 lg:px-8 pb-8">
-        <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] bg-[radial-gradient(50%_100%_at_top,theme(colors.red.200),white)] opacity-20 lg:left-36" />
-        <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-right skew-x-[45deg] bg-white shadow-xl shadow-red-400/10 ring-1 ring-red-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
-        <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] bg-[radial-gradient(50%_100%_at_top,theme(colors.red.200),white)] opacity-20 lg:left-36" />
+        <div className="absolute left-1/2 top-0 -z-10 h-200 w-360 bg-[radial-gradient(50%_100%_at_top,var(--color-red-200),white)] opacity-20 lg:left-36" />
+        <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-right skew-x-45 bg-white shadow-xl shadow-red-400/10 ring-1 ring-red-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
+        <div className="absolute left-1/2 top-0 -z-10 h-200 w-360 bg-[radial-gradient(50%_100%_at_top,var(--color-red-200),white)] opacity-20 lg:left-36" />
         <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-red-400/10 ring-1 ring-red-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
         <h1 className="font-sans text-5xl md:text-7xl font-thin mt-6 md:mt-12">
           What to Expect
@@ -72,7 +72,7 @@ export default function Home({}) {
         ></video>
       </section>
       <section className="relative isolate overflow-hidden px-6 lg:px-8">
-        <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] -translate-x-1/2 bg-[radial-gradient(50%_100%_at_top,theme(colors.indigo.100),white)] opacity-20 lg:left-36" />
+        <div className="absolute left-1/2 top-0 -z-10 h-200 w-360 -translate-x-1/2 bg-[radial-gradient(50%_100%_at_top,var(--color-indigo-100),white)] opacity-20 lg:left-36" />
         <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
         <div className="relative mx-auto max-w-2xl py-12 md:py-24 sm:py-32 lg:max-w-4xl">
           <h1 className="font-sans text-5xl md:text-7xl font-thin mt-6 md:mt-12 mb-12 md:-ml-8">

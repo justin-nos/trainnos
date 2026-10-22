@@ -88,14 +88,14 @@ export default function TestimonialForm({validSlug}) {
                 First Name
               </label>
               <div className="mt-2">
-                <div className="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-red-500">
+                <div className="flex items-center rounded-md bg-white pl-3 outline-solid outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-solid focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-red-500">
                   <input
                     id="firstName"
                     name="firstName"
                     type="text"
                     required={true}
                     placeholder="First Name"
-                    className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+                    className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-solid focus:outline-0 sm:text-sm/6"
                   />
                 </div>
               </div>
@@ -108,14 +108,14 @@ export default function TestimonialForm({validSlug}) {
                 Last Name
               </label>
               <div className="mt-2">
-                <div className="flex items-center rounded-md bg-white pl-3 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-red-500">
+                <div className="flex items-center rounded-md bg-white pl-3 outline-solid outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-solid focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-red-500">
                   <input
                     id="lastName"
                     name="lastName"
                     type="text"
                     required={true}
                     placeholder="First Name"
-                    className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+                    className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline-solid focus:outline-0 sm:text-sm/6"
                   />
                 </div>
               </div>
@@ -132,7 +132,7 @@ export default function TestimonialForm({validSlug}) {
                   id="title"
                   name="title"
                   rows={1}
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-red-500 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-solid outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-solid focus:outline-2 focus:-outline-offset-2 focus:outline-red-500 sm:text-sm/6"
                   defaultValue={""}
                 />
               </div>
@@ -153,7 +153,7 @@ export default function TestimonialForm({validSlug}) {
                   name="text"
                   rows={3}
                   required={true}
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-red-500 sm:text-sm/6"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-solid outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-solid focus:outline-2 focus:-outline-offset-2 focus:outline-red-500 sm:text-sm/6"
                   defaultValue={""}
                 />
               </div>
@@ -187,7 +187,7 @@ export default function TestimonialForm({validSlug}) {
                   <div className="mt-4 flex text-sm/6 text-gray-600">
                     <label
                       htmlFor="file-upload"
-                      className="relative cursor-pointer rounded-md bg-white font-semibold text-red-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-red-500 focus-within:ring-offset-2 hover:text-indigo-500"
+                      className="relative cursor-pointer rounded-md bg-white font-semibold text-red-500 focus-within:outline-hidden focus-within:ring-2 focus-within:ring-red-500 focus-within:ring-offset-2 hover:text-indigo-500"
                     >
                       <span>Upload a file</span>
                       <input
@@ -210,7 +210,7 @@ export default function TestimonialForm({validSlug}) {
         </div>
         <button
           type="submit"
-          className="rounded-md bg-red-300 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
+          className="rounded-md bg-red-300 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
         >
           Submit
         </button>

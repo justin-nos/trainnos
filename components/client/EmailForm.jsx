@@ -68,7 +68,7 @@ export default function EmailSubmissionForm() {
           required
           placeholder="Enter your name"
           autoComplete="name"
-          className="min-w-0 flex-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-black outline outline-1 -outline-offset-1 outline-gray-200 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-red-500 sm:text-sm/6"
+          className="min-w-0 flex-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-black outline-solid outline-1 -outline-offset-1 outline-gray-200 placeholder:text-gray-500 focus:outline-solid focus:outline-2 focus:-outline-offset-2 focus:outline-red-500 sm:text-sm/6"
         />
         <label htmlFor="email-address" className="sr-only">
           Email address
@@ -81,11 +81,11 @@ export default function EmailSubmissionForm() {
           required
           placeholder="Enter your email"
           autoComplete="email"
-          className="min-w-0 flex-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-black outline outline-1 -outline-offset-1 outline-gray-200 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-red-500 sm:text-sm/6"
+          className="min-w-0 flex-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-black outline-solid outline-1 -outline-offset-1 outline-gray-200 placeholder:text-gray-500 focus:outline-solid focus:outline-2 focus:-outline-offset-2 focus:outline-red-500 sm:text-sm/6"
         />
         <button
           type="submit"
-          className="flex-none rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
+          className="flex-none rounded-md bg-red-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-red-400 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
         >
           Subscribe
         </button>

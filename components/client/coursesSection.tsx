@@ -102,7 +102,7 @@ const TemporaryEventSection: React.FC = () => {
       </header>
 
       {/* Video - Full width on mobile, centered on desktop */}
-      <div className="relative border-t-[1px] border-white">
+      <div className="relative border-t border-white">
         {" "}
         {/* Offset for header */}
         <video

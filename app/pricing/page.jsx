@@ -97,14 +97,14 @@ export default function Pricing() {
                       <a
                         href={tier.href}
                         aria-describedby={tier.id}
-                        className="mt-10 block rounded-md bg-red-400 px-3 py-2 text-center text-sm/6 font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
+                        className="mt-10 block rounded-md bg-red-400 px-3 py-2 text-center text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
                       >
                         Adult: View Plans
                       </a>
                       <a
                         href={tier.athlete.href}
                         aria-describedby={tier.id}
-                        className="mt-10 block rounded-md bg-red-400 px-3 py-2 text-center text-sm/6 font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
+                        className="mt-10 block rounded-md bg-red-400 px-3 py-2 text-center text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
                       >
                         Athlete: View Plans
                       </a>
@@ -113,7 +113,7 @@ export default function Pricing() {
                     <a
                       href={tier.href}
                       aria-describedby={tier.id}
-                      className="mt-10 block rounded-md bg-red-400 px-3 py-2 text-center text-sm/6 font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
+                      className="mt-10 block rounded-md bg-red-400 px-3 py-2 text-center text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
                     >
                       View Plans
                     </a>
