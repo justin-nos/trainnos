@@ -1,9 +1,9 @@
-import NextAuth from "next-auth";
+import NextAuth, {getServerSession} from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import {Account, Profile, User} from "next-auth";
 import {GoogleProfile} from "next-auth/providers/google";
 
-const authOptions = {
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID!,
@@ -37,3 +37,10 @@ const authOptions = {
 };
 export const nextAuth = NextAuth(authOptions);
 export const {handlers, signIn, signOut, auth} = nextAuth;
+
+// Server-side check for admin-only API routes. The /admins pages are only
+// guarded in the browser (CheckForAuth), so APIs must call this themselves.
+export async function getAdminSession() {
+  const session = await getServerSession(authOptions);
+  return session?.user?.email?.endsWith("@trainnos.com") ? session : null;
+}

@@ -1,6 +1,7 @@
 "use client";
 import {useContext} from "react";
 import AdminNavbar from "../../components/client/AdminNavbar";
+import LeadsTable from "../../components/client/LeadsTable";
 import {AdminContext} from "../../lib/context";
 import TestimonialLinkCreation from "../admins/makeTestimonialLink/page";
 import {getAuth} from "firebase/auth";
@@ -22,6 +23,7 @@ export default function Dashboard() {
           </header>
           <main>
             <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+              <LeadsTable />
               <TestimonialLinkCreation />
             </div>
           </main>
