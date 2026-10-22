@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Lets phones on the local network load dev assets (e.g. http://10.0.1.131:3000).
+  // Dev only; Next 16 otherwise answers 403 and client components never render.
+  allowedDevOrigins: ["10.*.*.*", "192.168.*.*", "172.*.*.*", "*.local"],
   async rewrites() {
     return [
       {
