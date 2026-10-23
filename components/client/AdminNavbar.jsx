@@ -12,6 +12,7 @@ import {Bars3Icon, BellIcon, XMarkIcon} from "@heroicons/react/24/outline";
 import ShieldB from "../../public/SHIELDB";
 import fullLOGOSource from "../../public/NOSLogo.png";
 import Image from "next/image";
+import {usePathname} from "next/navigation";
 
 const user = {
   name: "NOS Admin",
@@ -19,13 +20,21 @@ const user = {
   imageUrl:
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
-const navigation = [];
+const NAVIGATION = [
+  {name: "Leads", href: "/admins"},
+  {name: "Analytics", href: "/admins/analytics"},
+];
 const userNavigation = [{name: "Sign out", href: "/api/auth/signout"}];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 export default function AdminNavbar({}) {
+  const pathname = usePathname();
+  const navigation = NAVIGATION.map(item => ({
+    ...item,
+    current: pathname === item.href,
+  }));
   return (
     <Disclosure as="nav" className="bg-white shadow-xs">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
