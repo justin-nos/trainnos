@@ -45,6 +45,10 @@ const tiers = [
   },
 ];
 
+// "tier-semi_private" -> "pricing-semi-private": analytics ids are slugs.
+const tierSlug = (id, prefix) =>
+  `${prefix}-${id.replace(/^tier-/, "").replace(/_/g, "-")}`;
+
 export default function Pricing() {
   return (
     <>
@@ -54,7 +58,10 @@ export default function Pricing() {
       </Head>
       <div className="bg-white py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-4xl sm:text-center">
+          <div
+            data-section="pricing-intro"
+            className="mx-auto max-w-4xl sm:text-center"
+          >
             <h2 className="text-base/7 font-semibold text-red-500">Pricing</h2>
             <p className="mt-2 text-pretty text-5xl font-semibold tracking-tight text-gray-900 sm:text-balance sm:text-6xl">
               Turn Ideas into Action
@@ -67,6 +74,7 @@ export default function Pricing() {
             Not sure which?{" "}
             <Link
               href="/start"
+              data-track="pricing-find-your-fit"
               className="font-semibold text-red-500 hover:text-red-400"
             >
               Find your fit in 60 seconds <span aria-hidden="true">&rarr;</span>
@@ -79,7 +87,11 @@ export default function Pricing() {
           <div className="mt-20 flow-root">
             <div className="isolate -mt-16 grid max-w-sm grid-cols-1 gap-y-16 divide-y divide-gray-100 sm:mx-auto lg:-mx-8 lg:mt-0 lg:max-w-none lg:grid-cols-3 lg:divide-x lg:divide-y-0 xl:-mx-4">
               {tiers.map(tier => (
-                <div key={tier.id} className="pt-16 lg:px-8 lg:pt-0 xl:px-14">
+                <div
+                  key={tier.id}
+                  data-section={tierSlug(tier.id, "tier")}
+                  className="pt-16 lg:px-8 lg:pt-0 xl:px-14"
+                >
                   <h3
                     id={tier.id}
                     className="text-base/7 font-semibold text-gray-900"
@@ -106,6 +118,7 @@ export default function Pricing() {
                     <>
                       <a
                         href={tier.href}
+                        data-track={tierSlug(tier.id, "pricing")}
                         aria-describedby={tier.id}
                         className="mt-10 block rounded-md bg-red-400 px-3 py-2 text-center text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
                       >
@@ -113,6 +126,7 @@ export default function Pricing() {
                       </a>
                       <a
                         href={tier.athlete.href}
+                        data-track={`${tierSlug(tier.id, "pricing")}-athlete`}
                         aria-describedby={tier.id}
                         className="mt-10 block rounded-md bg-red-400 px-3 py-2 text-center text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
                       >
@@ -122,6 +136,7 @@ export default function Pricing() {
                   ) : (
                     <a
                       href={tier.href}
+                      data-track={tierSlug(tier.id, "pricing")}
                       aria-describedby={tier.id}
                       className="mt-10 block rounded-md bg-red-400 px-3 py-2 text-center text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
                     >

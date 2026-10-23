@@ -5,6 +5,7 @@ export default function ExpectButton({children}) {
   return (
     <Link
       href={"/whattoexpect"}
+      data-track="what-to-expect"
       className="my-4 mx-3 px-3 py-2 bg-amber-200 font-sans font-medium"
     >
       What to Expect

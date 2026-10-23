@@ -8,7 +8,7 @@ import Image from "next/image";
 export default function Home({}) {
   return (
     <main>
-      <header>
+      <header data-section="hero">
         <div className="bg-gray-900 w-screen font-helvetica">
           <div className="relative isolate overflow-hidden pt-14">
             <video
@@ -40,6 +40,7 @@ export default function Home({}) {
                 <div className="mt-10 flex items-center justify-center">
                   <Link
                     href="/start"
+                    data-track="hero-find-your-fit"
                     className="rounded-full bg-red-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-red-500/30 hover:bg-red-400 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
                   >
                     Find Your Fit — 60 sec
@@ -51,7 +52,7 @@ export default function Home({}) {
         </div>
       </header>
 
-      <section className="relative overflow-hidden px-6 lg:px-8 pb-8">
+      <section data-section="what-to-expect" className="relative overflow-hidden px-6 lg:px-8 pb-8">
         <div className="absolute left-1/2 top-0 -z-10 h-200 w-360 bg-[radial-gradient(50%_100%_at_top,var(--color-red-200),white)] opacity-20 lg:left-36" />
         <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-right skew-x-45 bg-white shadow-xl shadow-red-400/10 ring-1 ring-red-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
         <div className="absolute left-1/2 top-0 -z-10 h-200 w-360 bg-[radial-gradient(50%_100%_at_top,var(--color-red-200),white)] opacity-20 lg:left-36" />
@@ -71,7 +72,7 @@ export default function Home({}) {
           className="aspect-video w-screen md:w-4/5 mr-0 ml-auto mt-6 md:mt-12 rounded-2xl"
         ></video>
       </section>
-      <section className="relative isolate overflow-hidden px-6 lg:px-8">
+      <section data-section="testimonials" className="relative isolate overflow-hidden px-6 lg:px-8">
         <div className="absolute left-1/2 top-0 -z-10 h-200 w-360 -translate-x-1/2 bg-[radial-gradient(50%_100%_at_top,var(--color-indigo-100),white)] opacity-20 lg:left-36" />
         <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
         <div className="relative mx-auto max-w-2xl py-12 md:py-24 sm:py-32 lg:max-w-4xl">
@@ -232,7 +233,7 @@ export default function Home({}) {
           </figure>
         </div>
       </section>
-      <section className="px-6 pb-24 lg:px-8">
+      <section data-section="find-your-fit" className="px-6 pb-24 lg:px-8">
         <div className="relative isolate mx-auto max-w-5xl overflow-hidden rounded-3xl bg-gray-950 px-6 py-16 text-center shadow-2xl sm:px-16 sm:py-24">
           <div
             aria-hidden="true"
@@ -256,6 +257,7 @@ export default function Home({}) {
           <div className="mt-10 flex justify-center">
             <Link
               href="/start"
+              data-track="home-bottom-find-your-fit"
               className="rounded-full bg-red-500 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-red-500/30 hover:bg-red-400 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
             >
               Find Your Fit <span aria-hidden="true">&rarr;</span>

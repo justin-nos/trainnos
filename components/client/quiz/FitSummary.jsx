@@ -25,6 +25,7 @@ function ProgramButton({programId, firstName}) {
   return (
     <a
       href={href}
+      data-track={`quiz-summary-primary-${programId}`}
       {...(external ? {target: "_blank", rel: "noopener noreferrer"} : {})}
       className="inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-red-500 px-6 text-base font-semibold text-white shadow-lg shadow-red-500/30 transition hover:bg-red-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400 sm:w-auto"
     >
@@ -137,6 +138,7 @@ export default function FitSummary({answers, rec, onReplay, onRestart}) {
               Also worth a look:{" "}
               <a
                 href={alternate.href}
+                data-track={`quiz-summary-alternate-${rec.alternate}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-semibold text-white underline decoration-red-500 underline-offset-4 hover:text-red-300"

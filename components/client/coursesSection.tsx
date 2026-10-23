@@ -89,7 +89,7 @@ const TemporaryEventSection: React.FC = () => {
   }, []);
 
   return (
-    <section className="sticky min-h-[200vh]">
+    <section data-section="kids-course" className="sticky min-h-[200vh]">
       {/* Fixed Header - Fades out on scroll */}
       <header
         className="fixed bottom-[25%] left-0 right-0 z-10 p-4 text-center transition-opacity duration-300"
@@ -177,7 +177,9 @@ const TemporaryEventSection: React.FC = () => {
 
       {/* Time-tracked Button - Shows on both mobile and desktop at 48s */}
       {showButton && (
-        <a href="sms:+12518954302?body=Hey%20Brannon%2C%20this%20is%20%5BYour%20Name%5D.%20I'm%20interested%20in%20reserving%20a%20spot%20for%20a%2012%20week%20speed%20and%20agility%20course.">
+        <a
+          data-track="kids-course-reserve-sms"
+          href="sms:+12518954302?body=Hey%20Brannon%2C%20this%20is%20%5BYour%20Name%5D.%20I'm%20interested%20in%20reserving%20a%20spot%20for%20a%2012%20week%20speed%20and%20agility%20course.">
           <div className="fixed bottom-8 left-1/2 -translate-x-1/2 h-fit w-fit p-4 rounded-lg text-black bg-yellow-300 animate-bounce">
             Reserve a Spot
           </div>

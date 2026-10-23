@@ -70,7 +70,10 @@ export default async function Testimonials() {
   return (
     <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
+        <div
+          data-section="testimonials-intro"
+          className="mx-auto max-w-2xl text-center"
+        >
           <h2 className="text-base/7 font-semibold text-red-500">
             Testimonials
           </h2>
@@ -93,7 +96,10 @@ export default async function Testimonials() {
 async function TestimonialLazyComponent() {
   const testimonials: testimonial[] = await getTestimonials();
   return (
-    <div className="mx-auto mt-16 flow-root max-w-2xl sm:mt-20 lg:mx-0 lg:max-w-none">
+    <div
+      data-section="testimonials-grid"
+      className="mx-auto mt-16 flow-root max-w-2xl sm:mt-20 lg:mx-0 lg:max-w-none"
+    >
       <div className="-mt-8 sm:-mx-4 sm:columns-2 sm:text-[0] lg:columns-3">
         {testimonials.map(testimonial => (
           <div

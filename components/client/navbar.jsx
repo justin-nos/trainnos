@@ -8,6 +8,8 @@ import {Dialog, DialogPanel} from "@headlessui/react";
 import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline";
 import {usePathname} from "next/navigation";
 
+const slug = name => name.toLowerCase().replace(/\s+/g, "-");
+
 const navigation = [
   {
     name: "Meet Us",
@@ -93,6 +95,7 @@ function DefaultHeader({needBlackTextPass}) {
             <Link
               key={item.name}
               href={item.href}
+              data-track={`nav-${slug(item.name)}`}
               className={`text-sm font-semibold leading-6 ${
                 needBlackTextPass ? "text-black" : "text-white"
               }`}
@@ -104,6 +107,7 @@ function DefaultHeader({needBlackTextPass}) {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link
             href="/start"
+            data-track="nav-find-your-fit"
             className="rounded-full bg-red-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-400 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
           >
             Find Your Fit <span aria-hidden="true">&rarr;</span>
@@ -142,6 +146,7 @@ function DefaultHeader({needBlackTextPass}) {
                   <Link
                     key={item.name}
                     href={item.href}
+                    data-track={`nav-mobile-${slug(item.name)}`}
                     className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -152,6 +157,7 @@ function DefaultHeader({needBlackTextPass}) {
               <div className="py-6">
                 <Link
                   href="/start"
+                  data-track="nav-mobile-find-your-fit"
                   className="block rounded-full bg-red-500 px-4 py-2.5 text-center text-base font-semibold leading-7 text-white hover:bg-red-400"
                   onClick={() => setMobileMenuOpen(false)}
                 >
