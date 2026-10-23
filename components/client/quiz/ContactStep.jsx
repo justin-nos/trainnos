@@ -1,6 +1,7 @@
 "use client";
-import {useState} from "react";
+import {useRef, useState} from "react";
 import {FaArrowRight} from "react-icons/fa6";
+import {getAnalyticsIds, track} from "../../../lib/analytics/client";
 import {BRANNON_SMS} from "../../../lib/quiz/config.mjs";
 import {normalizeUSPhone} from "../../../lib/quiz/phone.mjs";
 import QuizFrame from "./QuizFrame";
@@ -21,10 +22,20 @@ export default function ContactStep({
   const [website, setWebsite] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [status, setStatus] = useState("idle");
+  const tracked = useRef(new Set());
+
+  // Each form step is sent once per visit to this screen, never with values.
+  const step = name => {
+    if (tracked.current.has(name)) return;
+    tracked.current.add(name);
+    track("form", {form: "contact", step: name});
+  };
 
   const onSubmit = async e => {
     e.preventDefault();
+    step("submit_attempt");
     if (!normalizeUSPhone(phone)) {
+      step("phone_error");
       setPhoneError("Enter a valid US phone number, like (251) 555-0123.");
       return;
     }
@@ -40,11 +51,13 @@ export default function ContactStep({
           consent,
           answers,
           website,
+          analytics: getAnalyticsIds(),
         }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       onSubmitted();
     } catch {
+      step("submit_error");
       setStatus("error");
     }
   };
@@ -76,6 +89,8 @@ export default function ContactStep({
               onChange={e => {
                 setPhone(e.target.value);
                 setPhoneError("");
+                if (e.target.value.trim()) step("phone_typed");
+                if (normalizeUSPhone(e.target.value)) step("phone_valid");
               }}
               onKeyDown={e => {
                 if (e.key === "Escape" && onBack) onBack();
@@ -113,7 +128,10 @@ export default function ContactStep({
               type="checkbox"
               required
               checked={consent}
-              onChange={e => setConsent(e.target.checked)}
+              onChange={e => {
+                setConsent(e.target.checked);
+                if (e.target.checked) step("consent_checked");
+              }}
               className="mt-0.5 size-5 flex-none accent-red-500"
             />
             It&rsquo;s OK for No Off Season to call or text me about training.
@@ -123,6 +141,7 @@ export default function ContactStep({
               Something went wrong — text us at{" "}
               <a
                 href={`sms:${BRANNON_SMS}`}
+                data-track="quiz-text-brannon"
                 className="whitespace-nowrap font-semibold underline"
               >
                 {NOS_PHONE}

@@ -196,15 +196,22 @@ function LeadRow({lead, failed, onStatus}) {
         <span className="font-semibold text-gray-900 sm:hidden">
           {lead.firstName}
         </span>
-        <time
-          dateTime={lead.createdAt ?? undefined}
-          title={
-            lead.createdAt ? new Date(lead.createdAt).toLocaleString() : ""
-          }
-          className="text-gray-500"
-        >
-          {timeAgo(lead.createdAt)}
-        </time>
+        <span>
+          <time
+            dateTime={lead.createdAt ?? undefined}
+            title={
+              lead.createdAt ? new Date(lead.createdAt).toLocaleString() : ""
+            }
+            className="text-gray-500"
+          >
+            {timeAgo(lead.createdAt)}
+          </time>
+          {lead.attribution?.source && (
+            <span className="ml-2 text-xs text-gray-400 sm:ml-0 sm:block">
+              via {lead.attribution.source}
+            </span>
+          )}
+        </span>
       </div>
       <div
         role="cell"
