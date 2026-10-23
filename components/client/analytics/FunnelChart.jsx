@@ -3,8 +3,9 @@ import {biggestDrop} from "../../../lib/analytics/funnel.mjs";
 import {fmtNum, fmtPct} from "./format";
 
 // Horizontal steps; bar width is the share of sessions that started the funnel.
-export default function FunnelChart({steps}) {
-  const drop = biggestDrop(steps);
+// Pass `drop` to highlight a different step (null for none) than biggestDrop.
+export default function FunnelChart({steps, drop: dropProp, showNote = true}) {
+  const drop = dropProp === undefined ? biggestDrop(steps) : dropProp;
   return (
     <div>
       <ol className="space-y-3">
@@ -47,7 +48,7 @@ export default function FunnelChart({steps}) {
           );
         })}
       </ol>
-      {drop && (
+      {drop && showNote && (
         <p className="mt-4 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800">
           <span className="font-semibold">Biggest drop-off:</span> {drop.from} →{" "}
           {drop.to}, {fmtPct(drop.lost)} lost

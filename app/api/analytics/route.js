@@ -39,7 +39,12 @@ export async function GET(req) {
       range: {from: range.from, to: range.to},
       previousRange: prev,
       current,
-      previous: {hasData: previous.hasData, totals: previous.totals},
+      previous: {
+        hasData: previous.hasData,
+        totals: previous.totals,
+        sources: previous.sources,
+        ctas: previous.ctas,
+      },
       deltas: compare(current, previous),
     });
   } catch (error) {

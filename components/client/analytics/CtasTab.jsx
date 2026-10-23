@@ -1,23 +1,32 @@
 "use client";
+import {clicksByKind, delta} from "../../../lib/analytics/insights.mjs";
 import BarTable from "./BarTable";
 import Card from "./Card";
+import StatCard from "./StatCard";
 import {KIND_LABELS, fmtNum, fmtPct} from "./format";
 
-const clicksOfKind = (ctas, kind) =>
-  ctas.filter(c => c.kind === kind).reduce((sum, c) => sum + c.clicks, 0);
+const OUTBOUND = [
+  {kind: "pushpress", label: "PushPress clicks"},
+  {kind: "sms", label: "SMS taps"},
+  {kind: "tel", label: "Phone taps"},
+  {kind: "mailto", label: "Email taps"},
+];
 
 export default function CtasTab({data}) {
   const ctas = data.current.ctas;
+  const cur = clicksByKind(ctas);
+  const prev = clicksByKind(data.previous.ctas);
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <OutboundCard
-          label="PushPress clicks"
-          value={clicksOfKind(ctas, "pushpress")}
-        />
-        <OutboundCard label="SMS taps" value={clicksOfKind(ctas, "sms")} />
-        <OutboundCard label="Phone taps" value={clicksOfKind(ctas, "tel")} />
-        <OutboundCard label="Email taps" value={clicksOfKind(ctas, "mailto")} />
+        {OUTBOUND.map(({kind, label}) => (
+          <StatCard
+            key={kind}
+            label={label}
+            value={fmtNum(cur[kind] ?? 0)}
+            delta={delta(cur[kind] ?? 0, prev[kind] ?? 0)}
+          />
+        ))}
       </div>
       <Card
         title="Buttons and links"
@@ -87,17 +96,6 @@ export default function CtasTab({data}) {
           }
         />
       </Card>
-    </div>
-  );
-}
-
-function OutboundCard({label, value}) {
-  return (
-    <div className="rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200">
-      <p className="text-sm font-medium text-gray-500">{label}</p>
-      <p className="mt-1 text-2xl font-bold tracking-tight text-gray-900">
-        {fmtNum(value)}
-      </p>
     </div>
   );
 }

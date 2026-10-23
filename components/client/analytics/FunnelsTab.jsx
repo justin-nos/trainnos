@@ -18,12 +18,14 @@ import {
 const SELECT =
   "rounded-md border-0 py-1.5 pl-2 pr-8 text-sm text-gray-900 ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-500";
 
-function Funnel({range}) {
-  const [filters, setFilters] = useState({
-    funnel: "quiz",
-    source: "",
-    device: "",
-  });
+// Filters live in the URL hash (params), so filtered views can be linked to.
+function Funnel({range, params, onParams}) {
+  const filters = {
+    funnel: params.funnel ?? "quiz",
+    source: params.source ?? "",
+    device: params.device ?? "",
+  };
+  const {funnel, source, device} = filters;
   const [result, setResult] = useState(null);
   const [state, setState] = useState("loading");
   const [reload, setReload] = useState(0);
@@ -31,12 +33,14 @@ function Funnel({range}) {
   useEffect(() => {
     let cancelled = false;
     setState("loading");
-    const params = new URLSearchParams({
+    const query = new URLSearchParams({
       from: range.from,
       to: range.to,
-      ...filters,
+      funnel,
+      source,
+      device,
     });
-    fetch(`/api/analytics/funnel?${params}`, {cache: "no-store"})
+    fetch(`/api/analytics/funnel?${query}`, {cache: "no-store"})
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -54,9 +58,10 @@ function Funnel({range}) {
     return () => {
       cancelled = true;
     };
-  }, [range.from, range.to, filters, reload]);
+  }, [range.from, range.to, funnel, source, device, reload]);
 
-  const set = key => e => setFilters(f => ({...f, [key]: e.target.value}));
+  const set = key => e =>
+    onParams({...params, [key]: e.target.value || undefined});
   const empty = result && result.funnel.steps[0].count === 0;
 
   return (
@@ -252,11 +257,16 @@ function QuizQuestions({quiz, started}) {
   );
 }
 
-export default function FunnelsTab({data, range}) {
+export default function FunnelsTab({
+  data,
+  range,
+  params = {},
+  onParams,
+}) {
   const c = data.current;
   return (
     <div className="space-y-6">
-      <Funnel range={range} />
+      <Funnel range={range} params={params} onParams={onParams} />
       <div className="grid gap-6 lg:grid-cols-2">
         <ContactForm steps={c.forms.contact ?? []} leads={c.totals.leads} />
         <Card

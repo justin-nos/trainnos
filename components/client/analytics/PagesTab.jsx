@@ -1,5 +1,5 @@
 "use client";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import BarTable from "./BarTable";
 import Card from "./Card";
 import {fmtDuration, fmtNum, fmtPct} from "./format";
@@ -15,7 +15,14 @@ const DIMENSION_COLUMNS = (label, withLeads = true) => [
     : []),
 ];
 
-function Dimension({title, rows, label, withLeads, description}) {
+function Dimension({
+  title,
+  rows,
+  label,
+  withLeads,
+  description,
+  highlightKey,
+}) {
   return (
     <Card title={title} description={description}>
       <BarTable
@@ -23,7 +30,10 @@ function Dimension({title, rows, label, withLeads, description}) {
         columns={DIMENSION_COLUMNS(label, withLeads)}
         rows={rows}
         rowKey={r => r.name}
-        barKey="sessions"
+        // Rank by what each one brings in, where we know it.
+        barKey={withLeads ? "leads" : "sessions"}
+        defaultSort={{key: withLeads ? "leads" : "sessions", dir: "desc"}}
+        highlightKey={highlightKey}
       />
     </Card>
   );
@@ -74,8 +84,13 @@ function Sections({sections}) {
   );
 }
 
-export default function PagesTab({data}) {
+// params.source (from a home-page link) highlights that source and scrolls to it.
+export default function PagesTab({data, params = {}}) {
   const c = data.current;
+  const sourcesRef = useRef(null);
+  useEffect(() => {
+    if (params.source) sourcesRef.current?.scrollIntoView({block: "start"});
+  }, [params.source]);
   return (
     <div className="space-y-6">
       <Card title="Pages">
@@ -95,14 +110,21 @@ export default function PagesTab({data}) {
       </Card>
       <Sections sections={c.sections} />
       <div className="grid gap-6 lg:grid-cols-2">
-        <Dimension title="Sources" label="Source" rows={c.sources} />
-        <Dimension title="Mediums" label="Medium" rows={c.mediums} />
+        <div ref={sourcesRef} className="min-w-0 scroll-mt-4">
+          <Dimension
+            title="Sources"
+            label="Source"
+            rows={c.sources}
+            highlightKey={params.source}
+          />
+        </div>
         <Dimension
           title="Campaigns"
           label="Campaign"
           rows={c.campaigns}
           description="From utm_campaign links."
         />
+        <Dimension title="Mediums" label="Medium" rows={c.mediums} />
         <Dimension
           title="Devices"
           label="Device"

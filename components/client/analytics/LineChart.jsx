@@ -1,6 +1,7 @@
 "use client";
-import {useEffect, useRef, useState} from "react";
+import {useState} from "react";
 import {fmtDay, fmtNum} from "./format";
+import useWidth from "./useWidth";
 
 const HEIGHT = 200;
 const LEADS_HEIGHT = 36;
@@ -12,21 +13,6 @@ function niceMax(n) {
   const pow = 10 ** Math.floor(Math.log10(n));
   const step = [1, 2, 5, 10].find(s => s * pow >= n / 4) * pow;
   return Math.ceil(n / step) * step;
-}
-
-function useWidth() {
-  const ref = useRef(null);
-  const [width, setWidth] = useState(0);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new ResizeObserver(([entry]) =>
-      setWidth(entry.contentRect.width),
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-  return [ref, width];
 }
 
 // Daily visitors as a line, with leads as bars in a strip below on the same

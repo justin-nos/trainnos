@@ -4,7 +4,23 @@ import {ChevronDownIcon, ChevronRightIcon} from "@heroicons/react/20/solid";
 
 const valueOf = (col, row) => (col.value ? col.value(row) : row[col.key]);
 
+function sortRows(rows, columns, sort) {
+  // A null sort key keeps the order rows were given in.
+  const col = columns.find(c => c.key === sort.key);
+  if (!col) return rows;
+  const dir = sort.dir === "asc" ? 1 : -1;
+  return [...rows].sort((a, b) => {
+    const x = valueOf(col, a);
+    const y = valueOf(col, b);
+    if (x === y) return 0;
+    if (x === null || x === undefined) return 1;
+    if (y === null || y === undefined) return -1;
+    return (typeof x === "string" ? x.localeCompare(y) : x - y) * dir;
+  });
+}
+
 // Sortable table; the `barKey` column draws a proportional bar behind its value.
+// `highlightKey` tints the row with that rowKey and reveals it if past `limit`.
 // columns: [{key, label, format?, align?: "left" | "right", value?: row => v}]
 export default function BarTable({
   caption,
@@ -17,27 +33,24 @@ export default function BarTable({
   renderExpanded,
   emptyText = "Nothing recorded in this range.",
   barClass = "bg-indigo-100",
+  highlightKey,
 }) {
   const [sort, setSort] = useState(
     defaultSort ?? {key: barKey ?? columns[1]?.key, dir: "desc"},
   );
-  const [showAll, setShowAll] = useState(false);
+  const [showAll, setShowAll] = useState(() => {
+    if (highlightKey == null) return false;
+    const i = sortRows(rows, columns, sort).findIndex(
+      r => rowKey(r) === highlightKey,
+    );
+    return i >= limit;
+  });
   const [open, setOpen] = useState(() => new Set());
 
-  const sorted = useMemo(() => {
-    // A null sort key keeps the order rows were given in.
-    const col = columns.find(c => c.key === sort.key);
-    if (!col) return rows;
-    const dir = sort.dir === "asc" ? 1 : -1;
-    return [...rows].sort((a, b) => {
-      const x = valueOf(col, a);
-      const y = valueOf(col, b);
-      if (x === y) return 0;
-      if (x === null || x === undefined) return 1;
-      if (y === null || y === undefined) return -1;
-      return (typeof x === "string" ? x.localeCompare(y) : x - y) * dir;
-    });
-  }, [rows, columns, sort]);
+  const sorted = useMemo(
+    () => sortRows(rows, columns, sort),
+    [rows, columns, sort],
+  );
 
   if (!rows.length) {
     return (
@@ -109,7 +122,9 @@ export default function BarTable({
               const expanded = open.has(key);
               return (
                 <Fragment key={key}>
-                  <tr className="border-b border-gray-100 last:border-b-0">
+                  <tr
+                    className={`border-b border-gray-100 last:border-b-0 ${key === highlightKey ? "bg-amber-50" : ""}`}
+                  >
                     {columns.map((col, i) => {
                       const v = valueOf(col, row);
                       const right =
