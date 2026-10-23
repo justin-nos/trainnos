@@ -14,5 +14,11 @@ const nextConfig = {
       },
     ],
   },
+  // Analytics became the admin home. Browsers keep the #range/tab hash.
+  async redirects() {
+    return [
+      {source: "/admins/analytics", destination: "/admins", permanent: false},
+    ];
+  },
 };
 export default nextConfig;

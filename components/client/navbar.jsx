@@ -38,7 +38,10 @@ const whiteBGPaths = [
   "/testimonials",
   "/diet",
 ];
+// Admin pages render their own AdminNavbar; this covers everything under them.
 const dontDisplayNavPaths = ["/admins"];
+const hidesNav = path =>
+  dontDisplayNavPaths.some(p => path === p || path?.startsWith(`${p}/`));
 
 export default function Navbar({}) {
   const pathName = usePathname();
@@ -53,7 +56,7 @@ export default function Navbar({}) {
       setNeedBlackText(false);
     }
   }, [pathName]);
-  return dontDisplayNavPaths.includes(pathName) ? (
+  return hidesNav(pathName) ? (
     <></>
   ) : (
     <DefaultHeader needBlackTextPass={needBlackText} />
