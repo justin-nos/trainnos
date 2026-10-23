@@ -1,6 +1,6 @@
 "use client";
 import {useEffect, useMemo, useRef, useState} from "react";
-import {usePostHog} from "posthog-js/react";
+import {track} from "../../../lib/analytics/client";
 import {
   nextQuestion,
   progress,
@@ -53,7 +53,6 @@ export function clearSavedQuiz() {
 }
 
 export default function FitQuiz() {
-  const posthog = usePostHog();
   const [answers, setAnswers] = useState({});
   const [stage, setStage] = useState("questions");
   const [hydrated, setHydrated] = useState(false);
@@ -87,17 +86,17 @@ export default function FitQuiz() {
     if (!question) return;
     if (!started.current) {
       started.current = true;
-      posthog?.capture("fit_quiz_started");
+      track("quiz_started");
     }
-    // Never send the name to PostHog.
+    // Never send the name to analytics.
     if (question.id !== "firstName") {
-      posthog?.capture("fit_quiz_step", {question_id: question.id, value});
+      track("quiz_step", {question_id: question.id, value: String(value)});
     }
     const next = pruneAnswers({...answers, [question.id]: value});
     setAnswers(next);
     if (nextQuestion(next) === null) {
       const done = recommend(next);
-      posthog?.capture("fit_quiz_completed", {
+      track("quiz_completed", {
         primary: done.primary,
         alternate: done.alternate,
         who: next.who,
@@ -125,8 +124,7 @@ export default function FitQuiz() {
   };
 
   const submitted = () => {
-    // Program only: the name and phone never go to PostHog.
-    posthog?.capture("fit_quiz_lead_submitted", {primary: rec.primary});
+    // Leads are counted on the server, in /api/submitLead.
     setStage("wrapped");
   };
 
