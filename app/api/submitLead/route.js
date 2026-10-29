@@ -1,9 +1,11 @@
+import {after} from "next/server";
 import {recommend, sanitizeAnswers} from "../../../lib/quiz/engine.mjs";
 import {normalizeUSPhone} from "../../../lib/quiz/phone.mjs";
 import {buildLeadWrites} from "../../../lib/analytics/rollup.mjs";
 import {isUuid} from "../../../lib/analytics/schema.mjs";
 import {recordLead} from "../../../lib/analytics/store";
 import {leadToRow} from "../../../lib/db/rows.mjs";
+import {notifyNewLead} from "../../../lib/notify/leadAlerts";
 import {supabaseAdmin} from "../../../lib/supabase/admin";
 
 // Campaign attribution from the visitor's analytics session, never PII.
@@ -116,5 +118,14 @@ export async function POST(req) {
     leadId: lead.id,
     primary: rec.primary,
   });
+  // Texts the coaches after the response is sent; SMS trouble never fails a lead.
+  after(() =>
+    notifyNewLead(lead.id, {
+      firstName,
+      phone,
+      answers: parsed.answers,
+      recommendation: {primary: rec.primary, alternate: rec.alternate},
+    }).catch(error => console.error("Error sending lead alerts", error)),
+  );
   return Response.json({success: true}, {status: 201});
 }

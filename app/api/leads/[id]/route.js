@@ -1,4 +1,5 @@
 import {getAdminSession} from "../../../../lib/admin/session";
+import {cancelLeadAlerts} from "../../../../lib/notify/leadAlerts";
 import {supabaseAdmin} from "../../../../lib/supabase/admin";
 
 const STATUSES = ["new", "contacted", "booked", "not-a-fit"];
@@ -28,6 +29,14 @@ export async function PATCH(req, {params}) {
   }
   if (!data.length) {
     return Response.json({error: "Lead not found"}, {status: 404});
+  }
+  // Someone handled the lead, so the pending reminder texts are moot.
+  if (status !== "new") {
+    try {
+      await cancelLeadAlerts(id);
+    } catch (error) {
+      console.error("Error cancelling lead alerts", error);
+    }
   }
   return Response.json({success: true});
 }

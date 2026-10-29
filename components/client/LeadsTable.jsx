@@ -1,5 +1,6 @@
 "use client";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
+import {useSearchParams} from "next/navigation";
 import {FaMessage, FaPhone, FaRotateRight} from "react-icons/fa6";
 import {PROGRAMS} from "../../lib/quiz/config.mjs";
 import {selectedOption} from "../../lib/quiz/engine.mjs";
@@ -57,6 +58,10 @@ export default function LeadsTable() {
   const [leads, setLeads] = useState([]);
   const [state, setState] = useState("loading");
   const [rowError, setRowError] = useState(null);
+  // ?lead=<id> (from a lead alert text) scrolls to that row and flashes it once.
+  const focusId = useSearchParams().get("lead");
+  const focused = useRef(false);
+  const [highlight, setHighlight] = useState(null);
 
   const load = async () => {
     setState("loading");
@@ -76,6 +81,17 @@ export default function LeadsTable() {
   useEffect(() => {
     load();
   }, []);
+
+  useEffect(() => {
+    if (!focusId || state !== "ready" || focused.current) return;
+    const row = document.getElementById(`lead-${focusId}`);
+    if (!row) return;
+    focused.current = true;
+    row.scrollIntoView({block: "center"});
+    setHighlight(focusId);
+    const id = setTimeout(() => setHighlight(null), 3000);
+    return () => clearTimeout(id);
+  }, [focusId, state]);
 
   // Update on screen right away; put the old status back if the save fails.
   const changeStatus = async (id, status) => {
@@ -168,6 +184,7 @@ export default function LeadsTable() {
                 key={lead.id}
                 lead={lead}
                 failed={rowError === lead.id}
+                highlighted={highlight === lead.id}
                 onStatus={status => changeStatus(lead.id, status)}
               />
             ))}
@@ -178,7 +195,7 @@ export default function LeadsTable() {
   );
 }
 
-function LeadRow({lead, failed, onStatus}) {
+function LeadRow({lead, failed, highlighted, onStatus}) {
   const answers = lead.answers ?? {};
   const primary = PROGRAMS[lead.recommendation?.primary];
   const alternate = PROGRAMS[lead.recommendation?.alternate];
@@ -189,8 +206,11 @@ function LeadRow({lead, failed, onStatus}) {
 
   return (
     <div
+      id={`lead-${lead.id}`}
       role="row"
-      className={`space-y-3 border-b border-gray-100 px-4 py-4 last:border-b-0 sm:space-y-0 ${COLUMNS}`}
+      className={`space-y-3 border-b border-gray-100 px-4 py-4 transition-shadow last:border-b-0 sm:space-y-0 ${COLUMNS} ${
+        highlighted ? "ring-2 ring-inset ring-red-500" : ""
+      }`}
     >
       <div role="cell" className="flex items-baseline justify-between sm:block">
         <span className="font-semibold text-gray-900 sm:hidden">

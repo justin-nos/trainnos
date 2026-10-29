@@ -1,4 +1,5 @@
 "use client";
+import {Suspense} from "react";
 import AdminNavbar from "../../../components/client/AdminNavbar";
 import LeadsTable from "../../../components/client/LeadsTable";
 import TestimonialLinkCreation from "../makeTestimonialLink/page";
@@ -18,7 +19,10 @@ export default function LeadsPage() {
           </header>
           <main>
             <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-              <LeadsTable />
+              {/* LeadsTable reads ?lead= with useSearchParams. */}
+              <Suspense>
+                <LeadsTable />
+              </Suspense>
               <TestimonialLinkCreation />
             </div>
           </main>
