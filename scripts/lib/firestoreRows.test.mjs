@@ -7,8 +7,10 @@ import {
   leadRow,
   payloadCounts,
   sessionRow,
+  shortfalls,
   testimonialRow,
   toIso,
+  verifyReport,
 } from "./firestoreRows.mjs";
 
 // Stands in for a firebase-admin Timestamp.
@@ -175,4 +177,42 @@ test("buildPayload and payloadCounts", () => {
     events: 0,
     daily: 1,
   });
+});
+
+describe("shortfalls", () => {
+  test("equal or higher is fine", () => {
+    assert.deepEqual(shortfalls({totals: {pageviews: 3}}, {totals: {pageviews: 3}}), []);
+    assert.deepEqual(shortfalls({totals: {pageviews: 3}}, {totals: {pageviews: 9, leads: 1}}), []);
+  });
+  test("lower or missing leaves are reported with their path", () => {
+    assert.deepEqual(
+      shortfalls({totals: {pageviews: 3, leads: 1}, ctas: {x: {clicks: 2, kind: "sms"}}}, {totals: {pageviews: 2}}),
+      ["totals.pageviews: 2 < 3", "totals.leads: missing < 1", "ctas.x.clicks: missing < 2"],
+    );
+  });
+});
+
+test("verifyReport lists what Supabase lacks", () => {
+  const payload = {
+    leads: [{id: "a"}, {id: "b"}],
+    testimonials: [{id: "t"}],
+    email_signups: [{email: "e@x.com"}],
+    sessions: [{id: "s1"}],
+    events: [],
+    daily: {"2026-10-28": {totals: {leads: 2}}},
+  };
+  const found = {
+    leads: new Set(["a"]),
+    testimonials: new Set(["t"]),
+    emails: new Set(["e@x.com"]),
+    sessions: new Set(["s1"]),
+    daily: {"2026-10-28": {totals: {leads: 1}}},
+  };
+  const {ok, report} = verifyReport(payload, found);
+  assert.equal(ok, false);
+  assert.deepEqual(report.leads, ["b"]);
+  assert.deepEqual(report.daily, ["2026-10-28 totals.leads: 1 < 2"]);
+  found.leads.add("b");
+  found.daily["2026-10-28"].totals.leads = 3;
+  assert.equal(verifyReport(payload, found).ok, true);
 });

@@ -3,6 +3,11 @@
 //
 //   node --env-file=.env.local scripts/importFirestore.mjs --dry-run [--out=<file>]
 //   node --env-file=.env.local scripts/importFirestore.mjs [--confirm]
+//   node --env-file=.env.local scripts/importFirestore.mjs --verify
+//
+// --verify only reads: it checks that every Firestore lead, testimonial,
+// email signup and session is in Supabase and that every daily number is
+// covered (Supabase may be higher, never lower). Exits 1 if anything is short.
 //
 // --skip-images leaves every testimonial without a photo (image_path null)
 // and never touches GCS, e.g. while the Firebase project's billing is closed.
@@ -18,7 +23,7 @@ import {cert, initializeApp} from "firebase-admin/app";
 import {getFirestore} from "firebase-admin/firestore";
 import {getStorage} from "firebase-admin/storage";
 import {createClient} from "@supabase/supabase-js";
-import {buildPayload, payloadCounts} from "./lib/firestoreRows.mjs";
+import {buildPayload, payloadCounts, verifyReport} from "./lib/firestoreRows.mjs";
 
 const PROJECT_ID = "nos-training-facility";
 const BUCKET = "nos-training-facility.appspot.com";
@@ -27,7 +32,8 @@ const IMAGE_TYPES = {".png": "image/png", ".jpeg": "image/jpeg"};
 const args = process.argv.slice(2);
 const dryRun = args.includes("--dry-run");
 const confirmed = args.includes("--confirm");
-const skipImages = args.includes("--skip-images");
+const verify = args.includes("--verify");
+const skipImages = verify || args.includes("--skip-images");
 const out =
   args.find(a => a.startsWith("--out="))?.slice("--out=".length) ??
   join(tmpdir(), `firestore-import-${Date.now()}.json`);
@@ -43,7 +49,7 @@ if (!dryRun) {
   if (!supabaseUrl || !process.env.SUPABASE_SECRET_KEY) {
     fail("NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SECRET_KEY must be set.");
   }
-  if (!isLocal && !confirmed) {
+  if (!isLocal && !confirmed && !verify) {
     fail(`Target is ${supabaseUrl}. Re-run with --confirm to import into it.`);
   }
 }
@@ -114,6 +120,50 @@ for (const {id} of skipImages ? [] : testimonials) {
 
 const payload = buildPayload({leads, testimonials, emails, sessions, events, daily, imagePaths});
 console.log("Payload:", payloadCounts(payload));
+
+// PostgREST returns at most 1,000 rows per request.
+async function readAll(table, columns, filter = q => q) {
+  const rows = [];
+  for (let from = 0; ; from += 1000) {
+    const {data, error} = await filter(supabase.from(table).select(columns)).range(from, from + 999);
+    if (error) fail(`Couldn't read ${table}: ${error.message}`);
+    rows.push(...data);
+    if (data.length < 1000) return rows;
+  }
+}
+
+if (verify) {
+  console.log(`Checking ${supabaseUrl}...`);
+  const prod = q => q.eq("env", "prod");
+  const ids = rows => new Set(rows.map(r => r.id));
+  const found = {
+    leads: ids(await readAll("leads", "id")),
+    testimonials: ids(await readAll("testimonials", "id")),
+    emails: new Set((await readAll("email_signups", "email")).map(r => r.email)),
+    sessions: ids(await readAll("analytics_sessions", "id", prod)),
+    daily: Object.fromEntries(
+      (await readAll("analytics_daily", "day,data", prod)).map(r => [r.day, r.data]),
+    ),
+  };
+  const {ok, report} = verifyReport(payload, found);
+  for (const [name, list] of Object.entries(report)) {
+    if (!list.length) {
+      console.log(`ok       ${name}`);
+    } else if (name === "daily") {
+      // Per day: how many numbers are short, with the headline totals.
+      const byDay = Object.groupBy(list, line => line.split(" ")[0]);
+      for (const [day, lines] of Object.entries(byDay)) {
+        const totals = lines.filter(l => l.includes(" totals.")).map(l => l.split(" ").slice(1).join(" "));
+        console.log(`MISSING  daily ${day}: ${lines.length} numbers short${totals.length ? ` (${totals.join(", ")})` : ""}`);
+      }
+    } else {
+      console.log(`MISSING  ${name}: ${list.join(", ")}`);
+    }
+  }
+  if (!ok) fail("Some Firestore data is not in Supabase.");
+  console.log("Everything in Firestore is in Supabase.");
+  process.exit(0);
+}
 
 if (dryRun) {
   writeFileSync(out, JSON.stringify(payload, null, 2));

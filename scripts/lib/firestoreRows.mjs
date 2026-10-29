@@ -124,3 +124,35 @@ export const payloadCounts = p => ({
   events: p.events.length,
   daily: Object.keys(p.daily).length,
 });
+
+// Numeric leaves of `expected` that `actual` doesn't cover (missing or lower),
+// as dotted paths. Supabase may be higher (post-cutover traffic), never lower.
+export function shortfalls(expected, actual, prefix = "") {
+  const out = [];
+  for (const [key, value] of Object.entries(expected ?? {})) {
+    const path = prefix ? `${prefix}.${key}` : key;
+    const got = actual?.[key];
+    if (typeof value === "number") {
+      if (typeof got !== "number" || got < value) out.push(`${path}: ${got ?? "missing"} < ${value}`);
+    } else if (value && typeof value === "object" && !Array.isArray(value)) {
+      out.push(...shortfalls(value, got, path));
+    }
+  }
+  return out;
+}
+
+// What the Firestore payload has that Supabase lacks. `found` holds Sets of
+// ids/emails present in Supabase and the prod daily trees by day.
+export function verifyReport(payload, found) {
+  const missing = (rows, key, set) => rows.map(r => r[key]).filter(id => !set.has(id));
+  const report = {
+    leads: missing(payload.leads, "id", found.leads),
+    testimonials: missing(payload.testimonials, "id", found.testimonials),
+    email_signups: missing(payload.email_signups, "email", found.emails),
+    sessions: missing(payload.sessions, "id", found.sessions),
+    daily: Object.entries(payload.daily).flatMap(([day, tree]) =>
+      shortfalls(tree, found.daily[day]).map(s => `${day} ${s}`),
+    ),
+  };
+  return {ok: Object.values(report).every(list => !list.length), report};
+}
