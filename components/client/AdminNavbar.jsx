@@ -24,6 +24,7 @@ const NAVIGATION = [
   {name: "Analytics", href: "/admins"},
   {name: "Leads", href: "/admins/leads"},
   {name: "Trainers", href: "/admins/trainers"},
+  {name: "Community", href: "/admins/community"},
 ];
 const userNavigation = [{name: "Sign out", href: "/auth/signout"}];
 

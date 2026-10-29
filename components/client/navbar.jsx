@@ -18,6 +18,12 @@ const navigation = [
     },
   },
   {
+    name: "Community",
+    href: {
+      pathname: "/community",
+    },
+  },
+  {
     name: "Pricing",
     href: {
       pathname: "/pricing",

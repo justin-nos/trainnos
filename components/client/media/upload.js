@@ -110,3 +110,11 @@ export async function sniffCodec(file) {
   const [a, b] = await Promise.all([head.arrayBuffer(), tail.arrayBuffer()]);
   return detectVideoCodec(new Uint8Array(a), new Uint8Array(b));
 }
+
+// Pixel size of an image Blob (after any EXIF rotation).
+export async function imageSize(blob) {
+  const bitmap = await createImageBitmap(blob, {imageOrientation: "from-image"});
+  const size = {width: bitmap.width, height: bitmap.height};
+  bitmap.close();
+  return size;
+}

@@ -46,5 +46,6 @@ export const config = {
     "/api/analytics/:path*",
     "/api/uploads/:path*",
     "/api/trainers/:path*",
+    "/api/community/:path*",
   ],
 };
