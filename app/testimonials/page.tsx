@@ -1,6 +1,10 @@
 import {Suspense} from "react";
 import {supabaseAdmin} from "../../lib/supabase/admin";
 
+// Rebuilt hourly so database-side edits (imports, added photos) show up;
+// new submissions revalidate immediately via revalidatePath.
+export const revalidate = 3600;
+
 type testimonial = {
   id: string;
   name: string;
