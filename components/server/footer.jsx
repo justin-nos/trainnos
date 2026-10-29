@@ -12,6 +12,11 @@ const navigation = {
     {name: "Testimonials", href: "/testimonials"},
     {name: "Blog (Coming Soon)", href: "#"},
   ],
+  legal: [
+    {name: "Privacy Policy", href: "/privacy"},
+    {name: "Terms & Conditions", href: "/terms"},
+    {name: "SMS Alerts", href: "/sms-alerts"},
+  ],
   social: [
     {
       name: "Facebook",
@@ -167,9 +172,20 @@ export default function Footer() {
               </Link>
             ))}
           </div>
-          <p className="mt-8 text-sm/6 text-gray-400 md:order-1 md:mt-0">
-            &copy; 2024 No Off Season, LLC. All rights reserved.
-          </p>
+          <div className="mt-8 md:order-1 md:mt-0">
+            <p className="text-sm/6 text-gray-400">
+              &copy; 2024 No Off Season, LLC. All rights reserved.
+            </p>
+            <ul role="list" className="mt-2 flex flex-wrap gap-x-6 gap-y-1 text-sm/6">
+              {navigation.legal.map(item => (
+                <li key={item.name}>
+                  <Link href={item.href} className="text-gray-400 hover:text-gray-300">
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </footer>
