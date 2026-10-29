@@ -20,6 +20,9 @@ const nextConfig = {
           },
         ]
       : [],
+    // Next 16 won't optimize images from local IPs. Only relaxed when the
+    // app itself points at a local Supabase (127.0.0.1), never in production.
+    dangerouslyAllowLocalIP: ["127.0.0.1", "localhost"].includes(supabaseHost?.hostname),
   },
   // Analytics became the admin home. Browsers keep the #range/tab hash.
   async redirects() {

@@ -23,6 +23,7 @@ const user = {
 const NAVIGATION = [
   {name: "Analytics", href: "/admins"},
   {name: "Leads", href: "/admins/leads"},
+  {name: "Trainers", href: "/admins/trainers"},
 ];
 const userNavigation = [{name: "Sign out", href: "/auth/signout"}];
 

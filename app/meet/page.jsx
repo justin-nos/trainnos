@@ -1,111 +1,135 @@
 import Image from "next/image";
-import Link from "next/link";
-import GavinSrc from "../../public/Gavin_MeetUs.png";
-import BrannonSrc from "../../public/Brannon_MeetUs.png";
 import {MdMail} from "react-icons/md";
 import {FiPhoneOutgoing} from "react-icons/fi";
 import {TiContacts} from "react-icons/ti";
 import Mailto from "../../components/server/emailAssets";
-import Head from "next/head";
+import {trainerFromRow} from "../../lib/db/rows.mjs";
+import {publicUrl} from "../../lib/media/storage";
+import {isFounder, vCardHref} from "../../lib/trainers/schema.mjs";
+import {supabaseAdmin} from "../../lib/supabase/admin";
 
-const gavinContact =
-  "data:text/vcard;charset=utf-8,%20BEGIN:VCARD%0D%0AVERSION:3.0%0D%0APRODID:-//Apple Inc.//macOS 15.2//EN%0D%0AN:Willisson;Gavin;;;%0D%0AFN:Gavin Willisson%0D%0AORG:NOS;%0D%0AEMAIL;type=INTERNET;type=WORK;type=pref:gavin@trainnos.com%0D%0ATEL;type=pref:+12516566025%0D%0AEND:VCARD";
-const brannonContact =
-  "data:text/vcard;charset=utf-8,%20BEGIN:VCARD%0D%0AVERSION:3.0%0D%0APRODID:-//Apple Inc.//macOS 15.2//EN%0D%0AN:Willisson;Brannon;;;%0D%0AFN:Brannon Willisson%0D%0AORG:NOS;%0D%0AEMAIL;type=INTERNET;type=WORK;type=pref:brannon@trainnos.com%0D%0ATEL;type=pref:+12518954302%0D%0AEND:VCARD";
+// Admin edits revalidate immediately; hourly covers dashboard edits.
+export const revalidate = 3600;
 
-const people = [
-  {
-    name: "Gavin Willisson",
-    role: "Co Founder",
-    imageUrl: GavinSrc,
-    bio: "We have seen God do great things in this gym to allow it to happen. From being funded by a guy we had only known for a few months to the step by step oddities that have led to what we are today, The Lord has allowed us to do what we enjoy doing: train all ages for great things in life and pour into their lives even outside of the gym.",
-    emailUrl: "gavin@trainnos.com",
-    phoneUrl: "tel:+12516566025",
-    contactUrl: gavinContact,
-  },
-  {
-    name: "Brannon Willisson",
-    role: "Co Founder",
-    imageUrl: BrannonSrc,
-    bio: "When Gavin and I were growing up we always had a dream of opening a gym and calling it No Off Season. We wanted to have a place where kids in the community could come and get better at their sports but also grow in a relationship with Christ. I wanted to invest in the kids and local community the way a mentor of mine did for me.",
-    emailUrl: "brannon@trainnos.com",
-    phoneUrl: "tel:+12518954302",
-    contactUrl: brannonContact,
-  },
-];
+export const metadata = {
+  title: "Meet Our Team | No Off Season",
+  description:
+    "We exist to come along side you to build confidence, grow physically, and cultivate lifelong purpose within a Christ-centered gym community. There is no off season in life!",
+};
 
-export default function Meet() {
+// null when the query fails, so the page still renders its intro.
+async function getTrainers() {
+  try {
+    const {data, error} = await supabaseAdmin()
+      .from("trainers")
+      .select("*")
+      .eq("active", true)
+      .order("sort_order");
+    if (error) throw error;
+    return data.map(row => trainerFromRow(row, publicUrl));
+  } catch (error) {
+    console.error("Error reading trainers for /meet", error);
+    return null;
+  }
+}
+
+export default async function Meet() {
+  const trainers = await getTrainers();
+  const founders = trainers?.filter(isFounder) ?? [];
+  const team = trainers?.filter(t => !isFounder(t)) ?? [];
   return (
-    <>
-      <Head>
-        <title>Meet Gavin and Brannon | No Off Season</title>
-        <meta
-          name="description"
-          content="We exist to come along side you to build confidence, grow physically, and cultivate lifelong purpose within a Christ-centered gym community. There is no off season in life!"
-        />
-      </Head>
-      <div className="bg-white py-24 md:py-32 lg:py-40">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-20 px-6 lg:px-8 xl:grid-cols-3">
-          <div data-section="team-intro" className="mx-auto max-w-2xl lg:mx-0">
-            <h2 className="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
-              Our team
-            </h2>
-            <p className="mt-6 text-lg/8 text-gray-600">
-              There is no off season in life! Therefore, our mission is to come
-              along side you to build confidence, grow physically, and cultivate
-              lifelong purpose within a Christ centered gym community.
-            </p>
-          </div>
+    <div className="bg-white py-24 md:py-32 lg:py-40">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-20 px-6 lg:px-8 xl:grid-cols-3">
+        <div data-section="team-intro" className="mx-auto max-w-2xl lg:mx-0">
+          <h2 className="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+            Our team
+          </h2>
+          <p className="mt-6 text-lg/8 text-gray-600">
+            There is no off season in life! Therefore, our mission is to come
+            along side you to build confidence, grow physically, and cultivate
+            lifelong purpose within a Christ centered gym community.
+          </p>
+        </div>
+        {founders.length > 0 && (
           <ul
             data-section="team"
             role="list"
             className="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-20 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:gap-x-8 xl:col-span-2"
           >
-            {people.map(person => (
-              <li key={person.name}>
-                <Image
-                  alt={`Image of ${person.name}`}
-                  width={750}
-                  height={500}
-                  src={person.imageUrl}
-                  className="w-full rounded-2xl object-center object-fill"
-                />
-                <h3 className="mt-6 text-lg/8 font-semibold text-gray-900">
-                  {person.name}
-                </h3>
-                <p className="text-base/7 text-gray-600">{person.role}</p>
-                <p className="mt-4 text-base/7 text-gray-600">{person.bio}</p>
-                <ul role="list" className="mt-6 flex gap-x-6">
-                  <li>
-                    <Mailto
-                      email={person.emailUrl}
-                      subject="Hello! My Name is ..."
-                      body="I am interested in/have a question about..."
-                    >
-                      <span className="sr-only">Email</span>
-                      <MdMail />
-                    </Mailto>
-                  </li>
-                  <li>
-                    <a
-                      href={person.phoneUrl}
-                      className="text-gray-400 hover:text-gray-500"
-                    >
-                      <span className="sr-only">Phone</span>
-                      <FiPhoneOutgoing />
-                    </a>
-                  </li>
-                  <li>
-                    <a href={person.contactUrl}>
-                      <TiContacts />
-                    </a>
-                  </li>
-                </ul>
-              </li>
+            {founders.map(person => (
+              <TrainerCard key={person.id} person={person} />
+            ))}
+          </ul>
+        )}
+      </div>
+      {team.length > 0 && (
+        <div
+          data-section="trainers"
+          className="mx-auto mt-24 max-w-7xl px-6 md:mt-32 lg:px-8"
+        >
+          <h2 className="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+            Trainers
+          </h2>
+          <ul
+            role="list"
+            className="mx-auto mt-12 grid max-w-2xl grid-cols-1 gap-x-6 gap-y-20 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-x-8"
+          >
+            {team.map(person => (
+              <TrainerCard key={person.id} person={person} />
             ))}
           </ul>
         </div>
-      </div>
-    </>
+      )}
+    </div>
+  );
+}
+
+// Photos are cropped to the same portrait shape the founder photos use.
+function TrainerCard({person}) {
+  const contactUrl = vCardHref(person);
+  return (
+    <li>
+      <Image
+        alt={`Image of ${person.name}`}
+        width={800}
+        height={1000}
+        sizes="(min-width: 1280px) 400px, (min-width: 640px) 50vw, 100vw"
+        src={person.photo.url}
+        className="aspect-[4/5] w-full rounded-2xl object-cover object-top"
+      />
+      <h3 className="mt-6 text-lg/8 font-semibold text-gray-900">{person.name}</h3>
+      <p className="text-base/7 text-gray-600">{person.position}</p>
+      {person.bio && <p className="mt-4 text-base/7 text-gray-600">{person.bio}</p>}
+      {contactUrl && (
+        <ul role="list" className="mt-6 flex gap-x-6">
+          {person.email && (
+            <li>
+              <Mailto
+                email={person.email}
+                subject="Hello! My Name is ..."
+                body="I am interested in/have a question about..."
+              >
+                <span className="sr-only">Email</span>
+                <MdMail />
+              </Mailto>
+            </li>
+          )}
+          {person.phone && (
+            <li>
+              <a href={`tel:${person.phone}`} className="text-gray-400 hover:text-gray-500">
+                <span className="sr-only">Phone</span>
+                <FiPhoneOutgoing />
+              </a>
+            </li>
+          )}
+          <li>
+            <a href={contactUrl}>
+              <span className="sr-only">Add to contacts</span>
+              <TiContacts />
+            </a>
+          </li>
+        </ul>
+      )}
+    </li>
   );
 }

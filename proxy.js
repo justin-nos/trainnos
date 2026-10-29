@@ -45,5 +45,6 @@ export const config = {
     "/api/leads/:path*",
     "/api/analytics/:path*",
     "/api/uploads/:path*",
+    "/api/trainers/:path*",
   ],
 };
