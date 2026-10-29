@@ -1,14 +1,9 @@
 "use client";
-import {useContext} from "react";
 import AdminNavbar from "../../../components/client/AdminNavbar";
 import LeadsTable from "../../../components/client/LeadsTable";
-import {AdminContext} from "../../../lib/context";
 import TestimonialLinkCreation from "../makeTestimonialLink/page";
-import {getAuth} from "firebase/auth";
 
 export default function LeadsPage() {
-  const auth = getAuth();
-  console.log("auth from firestore: " + {...auth});
   return (
     <>
       <div className="min-h-full">

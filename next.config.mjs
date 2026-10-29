@@ -1,3 +1,8 @@
+// Public objects in the Supabase `media` bucket (testimonials, community, trainers).
+const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL)
+  : null;
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -5,14 +10,16 @@ const nextConfig = {
   // Dev only; Next 16 otherwise answers 403 and client components never render.
   allowedDevOrigins: ["10.*.*.*", "192.168.*.*", "172.*.*.*", "*.local"],
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "firebasestorage.googleapis.com",
-        pathname:
-          "/v0/b/nos-training-facility.appspot.com/o/testimonialImages**",
-      },
-    ],
+    remotePatterns: supabaseHost
+      ? [
+          {
+            protocol: supabaseHost.protocol.replace(":", ""),
+            hostname: supabaseHost.hostname,
+            port: supabaseHost.port,
+            pathname: "/storage/v1/object/public/media/**",
+          },
+        ]
+      : [],
   },
   // Analytics became the admin home. Browsers keep the #range/tab hash.
   async redirects() {

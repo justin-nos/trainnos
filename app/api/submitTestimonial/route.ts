@@ -1,71 +1,56 @@
-"use server";
-import {storage} from "../../../lib/firebase";
-import {getDoc, setDoc, doc, deleteDoc} from "firebase/firestore";
-import {uploadBytes, ref} from "firebase/storage";
+import {randomUUID} from "node:crypto";
 import {revalidatePath} from "next/cache";
-import randomId from "random-id";
-import {initializeAdminApp} from "../../../lib/initFirebaseAdmin";
+import {supabaseAdmin} from "../../../lib/supabase/admin";
 
-const firestoreDB = initializeAdminApp();
+const EXTENSIONS = {"image/png": ".png", "image/jpeg": ".jpeg"};
 
 export async function POST(request: Request) {
   const formData = await request.formData();
-  const postID = randomId(30, "aA0");
-  const token = request.headers.get("Authorization");
-  console.log(token);
-  const tokenDoc = await firestoreDB.collection("adminkeys").doc(token).get();
-  if (!tokenDoc.exists) {
-    return new Response("Invalid token", {status: 401});
+  const photoFile = formData.get("photo");
+  if (!(photoFile instanceof File) || !EXTENSIONS[photoFile.type]) {
+    return new Response(
+      "Invalid file type. Only PNG and JPEG files are allowed.",
+      {status: 400}
+    );
   }
+
+  // Consuming the link up front means two submits can't both use it.
+  const supabase = supabaseAdmin();
+  const token = request.headers.get("Authorization") ?? "";
+  const {data: consumed, error: tokenError} = await supabase
+    .from("testimonial_links")
+    .delete()
+    .eq("token", token)
+    .select("token");
+  if (tokenError) {
+    console.error("Error checking testimonial link", tokenError);
+    return new Response("Server Error", {status: 500});
+  }
+  if (!consumed.length) return new Response("Invalid token", {status: 401});
+
+  const postID = randomUUID();
+  const imagePath = `testimonialImages/${postID}${EXTENSIONS[photoFile.type]}`;
   try {
-    await firestoreDB
-      .collection("testimonials")
-      .doc(postID)
-      .set({
-        firstName: formData.get("firstName"),
-        lastName: formData.get("lastName"),
-        title: formData.get("title"),
-        text: formData.get("text"),
-      });
+    const {error: uploadError} = await supabase.storage
+      .from("media")
+      .upload(imagePath, photoFile, {contentType: photoFile.type});
+    if (uploadError) throw uploadError;
+    const {error} = await supabase.from("testimonials").insert({
+      id: postID,
+      first_name: formData.get("firstName"),
+      last_name: formData.get("lastName"),
+      title: formData.get("title"),
+      text: formData.get("text"),
+      image_path: imagePath,
+    });
+    if (error) throw error;
   } catch (err) {
-    console.error("Error when setting Firestore Docs", err);
+    console.error("Error saving testimonial", err);
+    // Give the link back so the person can try again.
+    await supabase.from("testimonial_links").insert({token});
     return new Response(`Webhook error: ${err.message}`, {status: 500});
   }
 
-  try {
-    const photoFile = formData.get("photo") as File;
-    let extension = "";
-
-    // Check the file type and set the extension accordingly
-    if (photoFile.type === "image/png") {
-      extension = ".png";
-    } else if (photoFile.type === "image/jpeg") {
-      extension = ".jpeg";
-    } else {
-      // If the file is not a PNG or JPEG, return an error
-      return new Response(
-        "Invalid file type. Only PNG and JPEG files are allowed.",
-        {status: 400}
-      );
-    }
-
-    const storageRef = ref(storage, `testimonialImages/${postID}${extension}`);
-
-    await uploadBytes(storageRef, photoFile);
-    console.log("Uploaded a blob or file!");
-  } catch (err) {
-    console.error("Error when uploading file to Firebase Storage", err);
-    return new Response(`Webhook error: ${err.message}`, {status: 500});
-  }
-
-  try {
-    // Assuming the token is stored in a document with the same ID as postID
-    await firestoreDB.collection("adminkeys").doc(token).delete();
-    console.log("Token deleted successfully!");
-  } catch (err) {
-    console.error("Error when deleting token", err);
-    return new Response(`Webhook error: ${err.message}`, {status: 500});
-  }
   revalidatePath("/testimonials");
   return new Response("Success!!", {status: 200});
 }

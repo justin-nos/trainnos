@@ -1,12 +1,7 @@
-"use client";
-import AuthProvider from "../../components/client/AdminAuthProvider";
-import AuthCheck from "../../components/client/CheckForAuth";
-export default function AdminLayout({children}) {
-  return (
-    <main>
-      <AuthProvider>
-        <AuthCheck>{children}</AuthCheck>
-      </AuthProvider>
-    </main>
-  );
+import {redirect} from "next/navigation";
+import {getAdminSession} from "../../lib/admin/session";
+
+export default async function AdminLayout({children}) {
+  if (!(await getAdminSession())) redirect("/auth/login");
+  return <main>{children}</main>;
 }

@@ -1,9 +1,7 @@
 import {redirect} from "next/navigation";
 import TestimonialForm from "../../../../components/client/TestimonialForm";
 import FunctionAfterForm from "../../../../components/server/FormFunction";
-import {initializeAdminApp} from "../../../../lib/initFirebaseAdmin";
-
-const firestoreDB = initializeAdminApp();
+import {supabaseAdmin} from "../../../../lib/supabase/admin";
 
 export default async function Page({params}) {
   let validAuth = undefined;
@@ -14,12 +12,14 @@ export default async function Page({params}) {
       throw new Error("No slug provided");
     }
     // Use the slug to fetch data
-    const docSnap = firestoreDB
-      .collection("adminkeys")
-      .doc(validationSlug)
-      .get();
+    const {data, error} = await supabaseAdmin()
+      .from("testimonial_links")
+      .select("token")
+      .eq("token", validationSlug)
+      .maybeSingle();
+    if (error) throw error;
 
-    if (!(await docSnap).exists) {
+    if (!data) {
       validAuth = false;
     } else {
       validAuth = true;

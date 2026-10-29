@@ -1,7 +1,4 @@
-"use server";
-import {initializeAdminApp} from "../../../lib/initFirebaseAdmin";
-
-const firestoreDB = initializeAdminApp();
+import {supabaseAdmin} from "../../../lib/supabase/admin";
 
 export async function POST(req) {
   /* try {
@@ -18,17 +15,17 @@ export async function POST(req) {
   } */
   try {
     const data = await req.json();
-    await firestoreDB.collection("emails").doc(data.email).set({
-      email: data.email,
-      name: data.name,
-    });
+    const {error} = await supabaseAdmin()
+      .from("email_signups")
+      .upsert({email: data.email, name: data.name});
+    if (error) throw error;
     return Response.json({
       success: true,
       message: "Email added successfully.",
       status: 200,
     });
   } catch (error) {
-    console.error("Error writing to Firestore", error);
+    console.error("Error saving email signup", error);
     return Response.json({error: "Server Error.", status: 500});
   }
 }

@@ -1,8 +1,5 @@
 "use client";
 import {useState, useRef, useEffect} from "react";
-import randomId from "random-id";
-import {firestoreDB} from "../../../lib/firebase";
-import {setDoc, doc} from "firebase/firestore";
 
 export default function TestimonialLinkCreation({}) {
   const [links, SetLinks] = useState([]);
@@ -34,16 +31,11 @@ export default function TestimonialLinkCreation({}) {
 
   async function createAdminLink(e) {
     e.preventDefault();
-    const randomconst = randomId(30, "aA0");
     try {
-      await fetch("/api/generateKey", {
-        method: "POST",
-        body: JSON.stringify({adminkey: randomconst}),
-        headers: {
-          Authorization: process.env.NEXT_PUBLIC_SERVERFUNCTION_KEY,
-        },
-      });
-      SetLinks([...links, randomconst]);
+      const res = await fetch("/api/generateKey", {method: "POST"});
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Couldn't create a link");
+      SetLinks([...links, data.token]);
     } catch (err) {
       console.error(err);
     }

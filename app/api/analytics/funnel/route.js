@@ -1,19 +1,40 @@
-import {Timestamp} from "firebase-admin/firestore";
-import {getAdminSession} from "../../../auth";
-import {initializeAdminApp} from "../../../../lib/initFirebaseAdmin";
+import {getAdminSession} from "../../../../lib/admin/session";
 import {FUNNELS} from "../../../../lib/analytics/config.mjs";
 import {
   addDays,
   dayStart,
   parseRange,
 } from "../../../../lib/analytics/dates.mjs";
-import {col} from "../../../../lib/analytics/firestore";
+import {ENV} from "../../../../lib/analytics/store";
 import {computeFunnel} from "../../../../lib/analytics/funnel.mjs";
+import {supabaseAdmin} from "../../../../lib/supabase/admin";
 
-const firestoreDB = initializeAdminApp();
 export const dynamic = "force-dynamic";
 
 const MAX_SESSIONS = 5000;
+// PostgREST returns at most 1,000 rows per request.
+const PAGE = 1000;
+const iso = ms => new Date(ms).toISOString();
+
+async function readSessions(from, to) {
+  const sessions = [];
+  while (sessions.length < MAX_SESSIONS) {
+    const start = sessions.length;
+    const end = Math.min(start + PAGE, MAX_SESSIONS) - 1;
+    const {data, error} = await supabaseAdmin()
+      .from("analytics_sessions")
+      .select("source,device,reached")
+      .eq("env", ENV)
+      .gte("started_at", iso(dayStart(from)))
+      .lt("started_at", iso(dayStart(addDays(to, 1))))
+      .order("started_at", {ascending: false})
+      .range(start, end);
+    if (error) throw error;
+    sessions.push(...data);
+    if (data.length < end - start + 1) break;
+  }
+  return sessions;
+}
 
 const countBy = (sessions, key) => {
   const counts = new Map();
@@ -37,19 +58,7 @@ export async function GET(req) {
   }
 
   try {
-    const snap = await firestoreDB
-      .collection(col("sessions"))
-      .where("startedAt", ">=", Timestamp.fromMillis(dayStart(range.from)))
-      .where(
-        "startedAt",
-        "<",
-        Timestamp.fromMillis(dayStart(addDays(range.to, 1))),
-      )
-      .orderBy("startedAt", "desc")
-      .limit(MAX_SESSIONS)
-      .select("source", "device", "reached")
-      .get();
-    const sessions = snap.docs.map(d => d.data());
+    const sessions = await readSessions(range.from, range.to);
     return Response.json({
       funnel: computeFunnel(sessions, funnelKey, {
         source: params.get("source") || undefined,

@@ -1,13 +1,5 @@
-"use server";
-import {collection, getDocs} from "firebase/firestore";
-import {storage} from "../../lib/firebase";
-import {getDownloadURL, ref} from "firebase/storage";
-import {FirebaseError} from "firebase/app";
-import Image from "next/image";
 import {Suspense} from "react";
-import {initializeAdminApp} from "../../lib/initFirebaseAdmin";
-
-const firestoreDB = initializeAdminApp();
+import {supabaseAdmin} from "../../lib/supabase/admin";
 
 type testimonial = {
   id: string;
@@ -17,53 +9,22 @@ type testimonial = {
   imageRef: string | null;
 };
 
-async function getTestimonials() {
-  try {
-    const docsSnap = await firestoreDB.collectionGroup("testimonials").get();
-    const testimonials: testimonial[] = [];
-    const imagePromises = docsSnap.docs.map(doc => {
-      const pngRef = ref(storage, `testimonialImages/${doc.id}.png`);
-      const jpegRef = ref(storage, `testimonialImages/${doc.id}.jpeg`);
-
-      return getDownloadURL(pngRef)
-        .then(imref => {
-          return imref; // PNG found, return this URL
-        })
-        .catch(() => {
-          // PNG not found, try JPEG
-          return getDownloadURL(jpegRef);
-        })
-        .then(imref => {
-          let url = imref && imref.length > 0 ? imref : null;
-          //console.log(url); // Optional: for debugging
-          testimonials.push({
-            id: doc.id,
-            name: doc.data().firstName + " " + doc.data().lastName,
-            body: doc.data().text,
-            title: doc.data().title,
-            imageRef: url,
-          });
-        })
-        .catch(error => {
-          // Neither PNG nor JPEG found
-          console.log(`Error downloading image for doc ${doc.id}: ${error}`);
-          testimonials.push({
-            id: doc.id,
-            name: doc.data().firstName + " " + doc.data().lastName,
-            body: doc.data().text,
-            title: doc.data().title,
-            imageRef: null,
-          });
-        });
-    });
-
-    // Wait for all image URL promises to resolve
-    await Promise.all(imagePromises);
-    return testimonials;
-  } catch (error) {
-    console.error(error);
-    return error;
-  }
+async function getTestimonials(): Promise<testimonial[]> {
+  const supabase = supabaseAdmin();
+  const {data, error} = await supabase
+    .from("testimonials")
+    .select("*")
+    .order("created_at");
+  if (error) throw error;
+  return data.map(row => ({
+    id: row.id,
+    name: row.first_name + " " + row.last_name,
+    body: row.text,
+    title: row.title,
+    imageRef: row.image_path
+      ? supabase.storage.from("media").getPublicUrl(row.image_path).data.publicUrl
+      : null,
+  }));
 }
 
 export default async function Testimonials() {

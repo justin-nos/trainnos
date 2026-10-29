@@ -1,22 +1,26 @@
-import {FieldValue} from "firebase-admin/firestore";
-import {initializeAdminApp} from "../../../lib/initFirebaseAdmin";
 import {recommend, sanitizeAnswers} from "../../../lib/quiz/engine.mjs";
 import {normalizeUSPhone} from "../../../lib/quiz/phone.mjs";
-import {addDailyWrites, col} from "../../../lib/analytics/firestore";
 import {buildLeadWrites} from "../../../lib/analytics/rollup.mjs";
 import {isUuid} from "../../../lib/analytics/schema.mjs";
-
-const firestoreDB = initializeAdminApp();
+import {recordLead} from "../../../lib/analytics/store";
+import {leadToRow} from "../../../lib/db/rows.mjs";
+import {supabaseAdmin} from "../../../lib/supabase/admin";
 
 // Campaign attribution from the visitor's analytics session, never PII.
+// `session` is the sid when that session exists, else null.
 async function readAttribution(sid) {
   if (!isUuid(sid)) return {attribution: {source: "unknown"}, session: null};
   try {
-    const snap = await firestoreDB.collection(col("sessions")).doc(sid).get();
-    if (!snap.exists) {
+    const {data, error} = await supabaseAdmin()
+      .from("analytics_sessions")
+      .select("source,medium,campaign,landing")
+      .eq("id", sid)
+      .maybeSingle();
+    if (error) throw error;
+    if (!data) {
       return {attribution: {source: "unknown", sessionId: sid}, session: null};
     }
-    const {source, medium, campaign, landing} = snap.data();
+    const {source, medium, campaign, landing} = data;
     return {
       attribution: {
         source: source ?? "unknown",
@@ -25,7 +29,7 @@ async function readAttribution(sid) {
         landing: landing ?? null,
         sessionId: sid,
       },
-      session: snap.ref,
+      session: sid,
     };
   } catch (error) {
     console.error("Error reading analytics session", error);
@@ -42,16 +46,7 @@ async function countLead({attribution, session, leadId, primary}) {
       leadId,
       now: Date.now(),
     });
-    const batch = firestoreDB.batch();
-    addDailyWrites(firestoreDB, batch, writes.daily);
-    if (session) {
-      batch.set(
-        session,
-        {...writes.session.set, reached: writes.session.reached},
-        {merge: true},
-      );
-    }
-    await batch.commit();
+    await recordLead({sid: session, writes});
   } catch (error) {
     console.error("Error counting lead in analytics", error);
   }
@@ -93,19 +88,26 @@ export async function POST(req) {
   const {attribution, session} = await readAttribution(body.analytics?.sid);
   let lead;
   try {
-    lead = await firestoreDB.collection("leads").add({
-      firstName,
-      phone,
-      consent: true,
-      answers: parsed.answers,
-      recommendation: {primary: rec.primary, alternate: rec.alternate},
-      status: "new",
-      source: "fit-quiz",
-      attribution,
-      createdAt: FieldValue.serverTimestamp(),
-    });
+    const {data, error} = await supabaseAdmin()
+      .from("leads")
+      .insert(
+        leadToRow({
+          firstName,
+          phone,
+          consent: true,
+          answers: parsed.answers,
+          recommendation: {primary: rec.primary, alternate: rec.alternate},
+          status: "new",
+          source: "fit-quiz",
+          attribution,
+        }),
+      )
+      .select("id")
+      .single();
+    if (error) throw error;
+    lead = data;
   } catch (error) {
-    console.error("Error writing lead to Firestore", error);
+    console.error("Error writing lead", error);
     return Response.json({error: "Server Error"}, {status: 500});
   }
   await countLead({

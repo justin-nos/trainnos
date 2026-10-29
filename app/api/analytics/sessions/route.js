@@ -1,12 +1,9 @@
-import {Timestamp} from "firebase-admin/firestore";
-import {getAdminSession} from "../../../auth";
-import {initializeAdminApp} from "../../../../lib/initFirebaseAdmin";
-import {col} from "../../../../lib/analytics/firestore";
+import {getAdminSession} from "../../../../lib/admin/session";
+import {ENV} from "../../../../lib/analytics/store";
+import {sessionFromRow} from "../../../../lib/db/rows.mjs";
+import {supabaseAdmin} from "../../../../lib/supabase/admin";
 
-const firestoreDB = initializeAdminApp();
 export const dynamic = "force-dynamic";
-
-const iso = ts => ts?.toDate().toISOString() ?? null;
 
 // Most recent visits, newest first. Page with ?before=<startedAt of the last row>.
 export async function GET(req) {
@@ -18,32 +15,18 @@ export async function GET(req) {
   const before = Date.parse(params.get("before") ?? "");
 
   try {
-    let query = firestoreDB
-      .collection(col("sessions"))
-      .orderBy("startedAt", "desc");
+    let query = supabaseAdmin()
+      .from("analytics_sessions")
+      .select("*")
+      .eq("env", ENV)
+      .not("started_at", "is", null)
+      .order("started_at", {ascending: false});
     if (Number.isFinite(before)) {
-      query = query.where("startedAt", "<", Timestamp.fromMillis(before));
+      query = query.lt("started_at", new Date(before).toISOString());
     }
-    const snap = await query.limit(limit).get();
-    const sessions = snap.docs.map(d => {
-      const s = d.data();
-      return {
-        id: d.id,
-        startedAt: iso(s.startedAt),
-        lastSeenAt: iso(s.lastSeenAt),
-        landing: s.landing ?? null,
-        source: s.source ?? null,
-        medium: s.medium ?? null,
-        campaign: s.campaign ?? null,
-        device: s.device ?? null,
-        geo: s.geo ?? null,
-        pageviews: s.pageviews ?? 0,
-        engagedMs: s.engagedMs ?? 0,
-        paths: s.paths ?? [],
-        reached: s.reached ?? {},
-        primary: s.primary ?? null,
-      };
-    });
+    const {data, error} = await query.limit(limit);
+    if (error) throw error;
+    const sessions = data.map(sessionFromRow);
     const next = sessions.length === limit ? sessions.at(-1).startedAt : null;
     return Response.json({sessions, next});
   } catch (error) {

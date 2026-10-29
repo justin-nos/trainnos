@@ -1,20 +1,24 @@
-import {getAdminSession} from "../../auth";
-import {initializeAdminApp} from "../../../lib/initFirebaseAdmin";
+import {getAdminSession} from "../../../lib/admin/session";
 import {
   dayRange,
   parseRange,
   previousRange,
 } from "../../../lib/analytics/dates.mjs";
-import {col} from "../../../lib/analytics/firestore";
+import {ENV} from "../../../lib/analytics/store";
+import {dailyFromRow} from "../../../lib/db/rows.mjs";
+import {supabaseAdmin} from "../../../lib/supabase/admin";
 import {compare, summarize} from "../../../lib/analytics/summarize.mjs";
 
-const firestoreDB = initializeAdminApp();
 export const dynamic = "force-dynamic";
 
 async function readDays(days) {
-  const refs = days.map(day => firestoreDB.collection(col("daily")).doc(day));
-  const snaps = await firestoreDB.getAll(...refs);
-  return snaps.filter(s => s.exists).map(s => s.data());
+  const {data, error} = await supabaseAdmin()
+    .from("analytics_daily")
+    .select("day,data")
+    .eq("env", ENV)
+    .in("day", days);
+  if (error) throw error;
+  return data.map(dailyFromRow);
 }
 
 // Daily rollups for a range and the same-length range before it.
@@ -48,7 +52,7 @@ export async function GET(req) {
       deltas: compare(current, previous),
     });
   } catch (error) {
-    console.error("Error reading analytics from Firestore", error);
+    console.error("Error reading analytics", error);
     return Response.json({error: "Server Error"}, {status: 500});
   }
 }

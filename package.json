@@ -7,19 +7,20 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "test": "node --test \"lib/**/*.test.mjs\""
+    "test": "node --test \"lib/**/*.test.mjs\" \"scripts/**/*.test.mjs\""
   },
   "dependencies": {
     "@headlessui/react": "^2.1.1",
     "@heroicons/react": "^2.1.4",
+    "@opentelemetry/api": "^1.10.0",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.118.0",
     "@vercel/analytics": "^1.4.1",
     "@vercel/speed-insights": "^1.1.0",
     "firebase": "^11.1.0",
     "firebase-admin": "^14.5.0",
     "lodash": "^4.17.21",
     "next": "^16.1.1",
-    "next-auth": "^4.24.13",
-    "random-id": "^1.0.4",
     "react": "^18",
     "react-dom": "^18",
     "react-firebase-hooks": "^5.1.1",

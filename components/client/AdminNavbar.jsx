@@ -24,7 +24,7 @@ const NAVIGATION = [
   {name: "Analytics", href: "/admins"},
   {name: "Leads", href: "/admins/leads"},
 ];
-const userNavigation = [{name: "Sign out", href: "/api/auth/signout"}];
+const userNavigation = [{name: "Sign out", href: "/auth/signout"}];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");

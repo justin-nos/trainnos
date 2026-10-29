@@ -1,7 +1,7 @@
-import {getAdminSession} from "../../auth";
-import {initializeAdminApp} from "../../../lib/initFirebaseAdmin";
+import {getAdminSession} from "../../../lib/admin/session";
+import {leadFromRow} from "../../../lib/db/rows.mjs";
+import {supabaseAdmin} from "../../../lib/supabase/admin";
 
-const firestoreDB = initializeAdminApp();
 export const dynamic = "force-dynamic";
 
 export async function GET() {
@@ -9,23 +9,15 @@ export async function GET() {
     return Response.json({error: "Unauthorized"}, {status: 401});
   }
   try {
-    const snap = await firestoreDB
-      .collection("leads")
-      .orderBy("createdAt", "desc")
-      .limit(200)
-      .get();
-    const leads = snap.docs.map(d => {
-      const data = d.data();
-      return {
-        id: d.id,
-        ...data,
-        createdAt: data.createdAt?.toDate().toISOString() ?? null,
-        updatedAt: data.updatedAt?.toDate().toISOString() ?? null,
-      };
-    });
-    return Response.json({leads});
+    const {data, error} = await supabaseAdmin()
+      .from("leads")
+      .select("*")
+      .order("created_at", {ascending: false})
+      .limit(200);
+    if (error) throw error;
+    return Response.json({leads: data.map(leadFromRow)});
   } catch (error) {
-    console.error("Error reading leads from Firestore", error);
+    console.error("Error reading leads", error);
     return Response.json({error: "Server Error"}, {status: 500});
   }
 }

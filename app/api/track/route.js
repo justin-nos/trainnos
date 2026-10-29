@@ -1,6 +1,5 @@
-import {initializeAdminApp} from "../../../lib/initFirebaseAdmin";
 import {MAX_BODY_BYTES} from "../../../lib/analytics/config.mjs";
-import {addTrackWrites} from "../../../lib/analytics/firestore";
+import {recordTrack} from "../../../lib/analytics/store";
 import {buildWrites} from "../../../lib/analytics/rollup.mjs";
 import {
   isAllowedOrigin,
@@ -10,7 +9,6 @@ import {deviceFromUA, isBot} from "../../../lib/analytics/source.mjs";
 
 export const dynamic = "force-dynamic";
 
-const firestoreDB = initializeAdminApp();
 const noContent = () => new Response(null, {status: 204});
 
 // "Daphne, AL" in the US, the country code elsewhere, null locally.
@@ -65,11 +63,9 @@ export async function POST(req) {
     device: deviceFromUA(ua),
   });
   try {
-    const fsBatch = firestoreDB.batch();
-    addTrackWrites(firestoreDB, fsBatch, {sid: batch.sid, writes, now});
-    await fsBatch.commit();
+    await recordTrack({sid: batch.sid, writes, now});
   } catch (error) {
-    console.error("Error writing analytics to Firestore", error);
+    console.error("Error writing analytics", error);
     return Response.json({error: "Server Error"}, {status: 500});
   }
   return noContent();

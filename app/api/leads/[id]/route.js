@@ -1,11 +1,7 @@
-import {FieldValue} from "firebase-admin/firestore";
-import {getAdminSession} from "../../../auth";
-import {initializeAdminApp} from "../../../../lib/initFirebaseAdmin";
+import {getAdminSession} from "../../../../lib/admin/session";
+import {supabaseAdmin} from "../../../../lib/supabase/admin";
 
-const firestoreDB = initializeAdminApp();
 const STATUSES = ["new", "contacted", "booked", "not-a-fit"];
-// Firestore's gRPC code for a missing document.
-const NOT_FOUND = 5;
 
 export async function PATCH(req, {params}) {
   if (!(await getAdminSession())) {
@@ -21,17 +17,17 @@ export async function PATCH(req, {params}) {
   if (!STATUSES.includes(status)) {
     return Response.json({error: "Invalid status"}, {status: 400});
   }
-  try {
-    await firestoreDB
-      .collection("leads")
-      .doc(id)
-      .update({status, updatedAt: FieldValue.serverTimestamp()});
-  } catch (error) {
-    if (error.code === NOT_FOUND) {
-      return Response.json({error: "Lead not found"}, {status: 404});
-    }
+  const {data, error} = await supabaseAdmin()
+    .from("leads")
+    .update({status, updated_at: new Date().toISOString()})
+    .eq("id", id)
+    .select("id");
+  if (error) {
     console.error("Error updating lead status", error);
     return Response.json({error: "Server Error"}, {status: 500});
+  }
+  if (!data.length) {
+    return Response.json({error: "Lead not found"}, {status: 404});
   }
   return Response.json({success: true});
 }
