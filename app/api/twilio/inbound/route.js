@@ -1,5 +1,5 @@
 import {cancelLeadAlerts} from "../../../../lib/notify/leadAlerts";
-import {makeAlertCode, parseInbound, toAscii, whichLeadText} from "../../../../lib/notify/leadMessage.mjs";
+import {branded, makeAlertCode, parseInbound, whichLeadText} from "../../../../lib/notify/leadMessage.mjs";
 import {MessagingResponse, isValidTwilioRequest, recipients, sendSms} from "../../../../lib/notify/twilio";
 import {supabaseAdmin} from "../../../../lib/supabase/admin";
 
@@ -9,7 +9,7 @@ const RECENT_MS = 7 * 24 * 60 * 60 * 1000;
 
 function reply(text) {
   const twiml = new MessagingResponse();
-  if (text) twiml.message(toAscii(text));
+  if (text) twiml.message(branded(text));
   return new Response(twiml.toString(), {headers: {"Content-Type": "text/xml"}});
 }
 
@@ -80,7 +80,7 @@ export async function POST(req) {
       others.map(c =>
         sendSms({
           to: c.phone,
-          body: toAscii(`${sender.name} is on it: ${lead.first_name} marked Contacted.`),
+          body: branded(`${sender.name} is on it - ${lead.first_name} marked Contacted.`),
         }),
       ),
     );
