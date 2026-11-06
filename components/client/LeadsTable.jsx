@@ -5,6 +5,7 @@ import {FaMessage, FaPhone, FaRotateRight} from "react-icons/fa6";
 import {PROGRAMS} from "../../lib/quiz/config.mjs";
 import {selectedOption} from "../../lib/quiz/engine.mjs";
 import {formatUSPhone} from "../../lib/quiz/phone.mjs";
+import ReachOut from "./ReachOut";
 
 const STATUSES = [
   {
@@ -62,6 +63,8 @@ export default function LeadsTable() {
   const focusId = useSearchParams().get("lead");
   const focused = useRef(false);
   const [highlight, setHighlight] = useState(null);
+  // Lead id whose Reach Out brief is open.
+  const [reachingOut, setReachingOut] = useState(null);
 
   const load = async () => {
     setState("loading");
@@ -113,6 +116,7 @@ export default function LeadsTable() {
   };
 
   const newCount = leads.filter(l => l.status === "new").length;
+  const active = leads.find(l => l.id === reachingOut);
 
   return (
     <section aria-labelledby="leads-heading" className="mb-10">
@@ -186,16 +190,25 @@ export default function LeadsTable() {
                 failed={rowError === lead.id}
                 highlighted={highlight === lead.id}
                 onStatus={status => changeStatus(lead.id, status)}
+                onReachOut={() => setReachingOut(lead.id)}
               />
             ))}
           </div>
         )}
       </div>
+      {/* Dialing counts as reaching out; later stages (booked) stay put. */}
+      {active && (
+        <ReachOut
+          lead={active}
+          onClose={() => setReachingOut(null)}
+          onDialed={() => active.status === "new" && changeStatus(active.id, "contacted")}
+        />
+      )}
     </section>
   );
 }
 
-function LeadRow({lead, failed, highlighted, onStatus}) {
+function LeadRow({lead, failed, highlighted, onStatus, onReachOut}) {
   const answers = lead.answers ?? {};
   const primary = PROGRAMS[lead.recommendation?.primary];
   const alternate = PROGRAMS[lead.recommendation?.alternate];
@@ -239,19 +252,21 @@ function LeadRow({lead, failed, highlighted, onStatus}) {
       >
         {lead.firstName}
       </div>
-      <div role="cell" className="flex items-center gap-2">
+      <div role="cell" className="flex flex-wrap items-center gap-2">
         <span className="whitespace-nowrap text-gray-900">
           {lead.phone ? formatUSPhone(lead.phone) : "—"}
         </span>
         {lead.phone && (
           <>
-            <a
-              href={`tel:${lead.phone}`}
-              aria-label={`Call ${lead.firstName}`}
-              className="rounded-full p-2 text-gray-500 ring-1 ring-gray-200 hover:bg-gray-50 hover:text-gray-900"
+            <button
+              type="button"
+              onClick={onReachOut}
+              aria-label={`Reach out to ${lead.firstName}`}
+              className="inline-flex items-center gap-1.5 rounded-full bg-red-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-red-700"
             >
               <FaPhone aria-hidden="true" className="size-3" />
-            </a>
+              Reach Out
+            </button>
             <a
               href={`sms:${lead.phone}`}
               aria-label={`Text ${lead.firstName}`}
